@@ -23,21 +23,24 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".splash.SplashActivity" />
-        <activity android:name=".activities.mainsetup.LoginActivity">
+        android:theme="@style/AppTheme.Green">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".activities.mainsetup.LoginActivity">
         </activity>
         <activity
             android:name=".activities.home.MainActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.home.SelectFilterActivity" />
+        <activity android:name=".activities.mainsetup.SignUpActivity"></activity>
         <activity android:name=".activities.SelectFilterActivity" />
-        <activity android:name=".activities.mainsetup.SignUpActivity" />
         <activity android:name=".activities.mainsetup.ForgotPasswordActivity" />
         <activity android:name=".activities.mainsetup.ChangePasswordActivity"></activity>
     </application>

@@ -1,4 +1,4 @@
-package com.carshiring.activities;
+package com.carshiring.activities.home;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;

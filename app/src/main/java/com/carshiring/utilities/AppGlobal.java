@@ -35,6 +35,17 @@ public class AppGlobal extends Application {
     public String user_department_id="" ;
     public String user_language_id="" ;
     public String user_status ="";
+    public String loginData="";
+
+    public String getLoginData() {
+        return loginData;
+    }
+
+    public void setLoginData(String loginData) {
+        sharedpref=new TinyDB(context);
+        sharedpref.putString("login_data",loginData);
+        this.loginData = loginData;
+    }
 
     public void setUser_id(String user_id) {
         sharedpref=new TinyDB(context);

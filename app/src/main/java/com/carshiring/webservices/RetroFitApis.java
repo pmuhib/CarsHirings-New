@@ -20,6 +20,9 @@ public interface RetroFitApis {
     Call<ApiResponse> signup(@Field("email") String email,
                              @Field("password") String password);
     @FormUrlEncoded
+    @POST("lang_list")
+    Call<ApiResponse> lang_list(@Field("") String s);
+    @FormUrlEncoded
     @POST("forgot_pass")
     Call<ApiResponse> forgot_pass(@Field("email") String email);
     @FormUrlEncoded
@@ -30,4 +33,9 @@ public interface RetroFitApis {
                                   @Field("userid") String userid);
 
 
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<ApiResponse> login(@Field("username") String username,
+                            @Field("password") String password);
 }
