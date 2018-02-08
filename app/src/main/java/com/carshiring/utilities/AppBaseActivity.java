@@ -16,7 +16,7 @@ import com.carshiring.interfaces.IRefreshToken;
 
 public class AppBaseActivity extends AppCompatActivity implements IBaseActivity,IRefreshToken {
     int CALLBACK ;
-    ActionBar actionBar ;
+   public ActionBar actionBar ;
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
