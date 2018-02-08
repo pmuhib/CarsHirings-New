@@ -37,7 +37,9 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SelectFilterActivity" />
-        <activity android:name=".activities.mainsetup.SignUpActivity"></activity>
+        <activity android:name=".activities.mainsetup.SignUpActivity" />
+        <activity android:name=".activities.mainsetup.ForgotPasswordActivity" />
+        <activity android:name=".activities.mainsetup.ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

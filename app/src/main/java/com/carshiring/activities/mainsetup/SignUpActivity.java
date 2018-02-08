@@ -29,7 +29,7 @@ public class SignUpActivity extends AppBaseActivity implements TextView.OnEditor
     EditText username,pass,confirmpassword;
     View v;
     TinyDB sharedpref;
-    String token,email,password,confirmpass;
+    String email,password,confirmpass;
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SignUpActivity extends AppBaseActivity implements TextView.OnEditor
         setContentView(R.layout.activity_sign_up);
         v=findViewById(android.R.id.content);
         sharedpref=new TinyDB(getApplicationContext());
-        token = sharedpref.getString("access_token");
+
         actionBar=getSupportActionBar();
         if(actionBar!=null)
         {

@@ -19,5 +19,15 @@ public interface RetroFitApis {
     @POST("signup")
     Call<ApiResponse> signup(@Field("email") String email,
                              @Field("password") String password);
+    @FormUrlEncoded
+    @POST("forgot_pass")
+    Call<ApiResponse> forgot_pass(@Field("email") String email);
+    @FormUrlEncoded
+
+    @POST("change_pass")
+    Call<ApiResponse> change_pass(@Field("oldpass") String oldpass,
+                                  @Field("newpass") String newpass,
+                                  @Field("userid") String userid);
+
 
 }
