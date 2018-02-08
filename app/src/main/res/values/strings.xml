@@ -169,5 +169,6 @@
     <string name="txtOpeningTime">Opening Times</string>
     <string name="txtSupplierinfo">Supplier Information</string>
     <string name="txtSave">Save and Quote</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>
