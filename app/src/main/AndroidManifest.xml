@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.home.HomeActivity"
+            android:name=".activities.home.MainActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SelectFilterActivity" />

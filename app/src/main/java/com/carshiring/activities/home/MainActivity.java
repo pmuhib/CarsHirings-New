@@ -12,11 +12,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.carshiring.R;
+import com.mukesh.tinydb.TinyDB;
 
-public class HomeActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    NavigationView navigationView;
+    public Toolbar toolbar;
+    public SearchQuery searchQuery = new SearchQuery();
+    View v;
+    String qu;
+    TinyDB sherprf;
+    DrawerLayout drawer;
+    String userId,language_code;
+    TextView txtemail, txtusername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
