@@ -213,7 +213,6 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId())
         {
-
             case R.id.reset:
                 for(FilterDefaultMultipleListModel model:supplierMultipleListModels)
                 {

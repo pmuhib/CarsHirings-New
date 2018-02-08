@@ -15,4 +15,9 @@ public interface RetroFitApis {
     Call<ApiResponse> token(@Field("grant_type") String grant_type,
                             @Field("client_id") String id,
                             @Field("client_secret") String secret);
+    @FormUrlEncoded
+    @POST("signup")
+    Call<ApiResponse> signup(@Field("email") String email,
+                             @Field("password") String password);
+
 }

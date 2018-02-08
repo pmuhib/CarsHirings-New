@@ -4,7 +4,7 @@ package com.carshiring.webservices;
  * Created by Muhib.
  * Contact Number : +91 9796173066
  */
-class ApiResponse {
+public class ApiResponse {
     public int error_code ;
     public boolean status ;
     public String msg ;

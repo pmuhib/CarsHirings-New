@@ -131,7 +131,10 @@
     <string name="switchDriverAgebw">Driver Aged between 25 - 70?</string>
     <string name="switchSearchMap">Search By map</string>
     <string name="edtDriverAge">Enter driver age</string>
-
+    <string name="licenseno">License No</string>
+    <string name="licenseorigion">License Origin</string>
+    <string name="city">City</string>
+    <string name="address">Address</string>
     <!--activitiy driver details-->
     <string name="txtLicense">بلد اصدار الرخصة القيادة</string>
     <string name="txtDriverLicenseNo">رقم رخصة القيادة</string>
@@ -156,6 +159,8 @@
     <string name="txtPointCollected">Points Collected:</string>
     <string name="txtPickUp">PickUp</string>
     <string name="txtDropUp">Drop off</string>
+    <string name="update">Save</string>
+    <string name="surname">Sur Name</string>
 
     <!--activity settings-->
     <string name="txtSettings">Settings Car Search</string>

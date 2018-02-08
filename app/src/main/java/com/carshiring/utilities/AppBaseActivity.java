@@ -5,10 +5,19 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.carshiring.interfaces.IBaseActivity;
 import com.carshiring.interfaces.IRefreshToken;
+import com.carshiring.webservices.RetroFitApis;
+import com.carshiring.webservices.RetrofitApiBuilder;
+import com.mukesh.tinydb.TinyDB;
 
+import com.carshiring.webservices.ApiResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Rakhi on 8/2/2018.
@@ -29,10 +38,10 @@ public class AppBaseActivity extends AppCompatActivity implements IBaseActivity,
 
     }
 
-/*
+
     public void getToken(final IRefreshToken iRefreshToken){
         final TinyDB sharedpref=new TinyDB(getApplicationContext());
-        RetroFitApis retroFitApis = RetrofitApiBuilder.getRetrofitGlobal();
+        RetroFitApis retroFitApis = RetrofitApiBuilder.getCarGatesapi();
         String grant_type = "client_credentials";
         String client_id = "developer";
         String client_secret = "5a633cf4392e8";
@@ -53,7 +62,7 @@ public class AppBaseActivity extends AppCompatActivity implements IBaseActivity,
         });
 
     }
-*/
+
 
     @Override
     public void refreshTokenCallBack() {
