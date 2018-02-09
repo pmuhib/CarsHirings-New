@@ -61,4 +61,10 @@ public interface RetroFitApis {
                              @Field("location_iata_drop") String location_iata_drop,
                              @Field("location_type_drop") String location_type_drop,
                              @Field("language_code") String language_code);
+
+    @FormUrlEncoded
+    @POST("webservice/location")
+    Call<ApiResponse> location_list(@Field("access_token") String access_token,
+                                    @Field("keyword") String keyword,
+                                    @Field("language_code") String language_code);
 }

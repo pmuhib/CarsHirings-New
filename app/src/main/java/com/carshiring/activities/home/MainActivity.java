@@ -90,9 +90,13 @@ public class MainActivity extends AppCompatActivity
                 setupSubView(R.id.action_search_car);
             }*/
 //for test
-           setupSubView(R.id.action_search_car);
+//           setupSubView(R.id.action_search_car);
 
        }
+
+        SearchCarFragment searchCarFragment = new SearchCarFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.subview_container, searchCarFragment)
+               .commit();
     }
 
     @Override

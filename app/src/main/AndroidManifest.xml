@@ -33,17 +33,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.mainsetup.LoginActivity"></activity>
+        <activity android:name=".activities.mainsetup.LoginActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activities.home.MainActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.home.SelectFilterActivity" />
-        <activity android:name=".activities.mainsetup.SignUpActivity" />
+        <activity android:name=".activities.mainsetup.SignUpActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.SelectFilterActivity" />
         <activity android:name=".activities.mainsetup.ForgotPasswordActivity" />
         <activity android:name=".activities.mainsetup.ChangePasswordActivity" />
-        <activity android:name=".activities.home.CarsResultListActivity"></activity>
+        <activity android:name=".activities.home.CarsResultListActivity" />
+        <activity android:name=".activities.home.LocationSelectionActivity"></activity>
     </application>
 
 </manifest>

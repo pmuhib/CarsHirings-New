@@ -93,8 +93,6 @@ public class LoginActivity extends AppBaseActivity implements View.OnClickListen
         InputMethodManager methodManager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         methodManager.hideSoftInputFromWindow(toolbar.getWindowToken(),0);
 
-        username.setText("pravin@askonlinesolutions.com");
-        password.setText("123456");
         String user=username.getText().toString().trim();
         String pass=password.getText().toString().trim();
 

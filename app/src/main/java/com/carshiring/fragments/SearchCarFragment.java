@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.carshiring.R;
 import com.carshiring.activities.home.CarsResultListActivity;
+import com.carshiring.activities.home.LocationSelectionActivity;
 import com.carshiring.activities.home.MainActivity;
 import com.carshiring.activities.home.SearchQuery;
 import com.carshiring.models.SearchData;
@@ -391,11 +392,11 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.et_pickup_location:
-//                startActivityForResult(new Intent(getActivity(), LocationSelectionActivity.class), REQUEST_PICKUP_LOCATION);
+                startActivityForResult(new Intent(getActivity(), LocationSelectionActivity.class), REQUEST_PICKUP_LOCATION);
                 break;
 
             case R.id.et_return_location:
-//                startActivityForResult(new Intent(getActivity(), LocationSelectionActivity.class), REQUEST_DESTINATION_LOCATION);
+                startActivityForResult(new Intent(getActivity(), LocationSelectionActivity.class), REQUEST_DESTINATION_LOCATION);
                 break;
 
             case R.id.btn_search_car:
@@ -529,14 +530,14 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-//            location = (Location) data.getSerializableExtra(LocationSelectionActivity.RESPONSE_DATA);
+            location = (Location) data.getSerializableExtra(LocationSelectionActivity.RESPONSE_DATA);
         }
         if (resultCode == 0) {
             if (requestCode == REQUEST_BY_MAP_LOCATION) {
 
             }
         }
-      /*  else if (resultCode == LocationSelectionActivity.RESPONSE_LOCATION) {
+        else if (resultCode == LocationSelectionActivity.RESPONSE_LOCATION) {
             if (requestCode == REQUEST_PICKUP_LOCATION) {
                 cityName = location.city_name;
                 pickup_loc_id = location.city_id;
@@ -548,7 +549,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 drop_loc_id = location.city_id;
                 dropName = location.city_name;
             }
-        }*/
+        }
     }
 
     protected synchronized void setupLocation() {

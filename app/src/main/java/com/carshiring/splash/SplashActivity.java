@@ -45,10 +45,8 @@ public class SplashActivity extends AppBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         sharedpref=new TinyDB(getApplicationContext());
-        // String language_code = sharedpref.getString("language_code") ;
-        String language_code = "en";
-//  boolean isSkipLogin = sharedpref.getBoolean("isSkipLogin");
-        boolean isSkipLogin = false;
+         String language_code = sharedpref.getString("language_code") ;
+        boolean isSkipLogin = sharedpref.getBoolean("isSkipLogin");
         if(language_code!=null && !language_code.isEmpty()) {
 //            updateResources(this, language_code);
             if (isSkipLogin) {
@@ -60,7 +58,6 @@ public class SplashActivity extends AppBaseActivity {
             } else {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));finish();
             }
-            finish();
             return ;
         }
 
@@ -70,7 +67,6 @@ public class SplashActivity extends AppBaseActivity {
         langlistId=new ArrayList<>();
         lan=new String[langlistname.size()];
         spinner_language = (Spinner) findViewById(R.id.spinner_language);
-
 
         if(actionBar!=null) actionBar.hide();
         accessToken = sharedpref.getString("access_token");
@@ -165,6 +161,7 @@ public class SplashActivity extends AppBaseActivity {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
                 Toast.makeText(SplashActivity.this, "Connection Error", Toast.LENGTH_SHORT).show();
                 spinner_language.setClickable(false);
                 spinner_language.setEnabled(false);
