@@ -14,15 +14,20 @@ import com.carshiring.utilities.AppBaseActivity;
 import com.carshiring.utilities.Utility;
 import com.carshiring.adapters.FilterValRecyclerAdapter;
 import com.carshiring.models.FilterDefaultMultipleListModel;
+import com.carshiring.webservices.RetroFitApis;
+import com.carshiring.webservices.RetrofitApiBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import retrofit2.Retrofit;
 
 public class SelectFilterActivity extends AppBaseActivity implements View.OnClickListener {
     RadioGroup CategoriesGroup;
     private FilterValRecyclerAdapter filterValAdapterinsuran,filterValAdapterpack,filterValAdapterSupl,filterValAdapterpackFeature;
     Button reset,applyfilter;
     RecyclerView rec_supplier,recy_package,recy_carfeatures,recy_insurance;
+    private ArrayList<String> categories = new ArrayList<>();
     private ArrayList<String> supplier = new ArrayList<>();
     private ArrayList<String> features = new ArrayList<>();
     private ArrayList<String> packages = new ArrayList<>();
@@ -148,7 +153,12 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
     private void setupcategorygroup() {
         if(Utility.isNetworkConnected(getApplicationContext()))
         {
-          //  StringRequest stringRequest=new StringRequest(Request.Method.POST,)
+            categories.add("1");
+            categories.add("33");
+            String cat=categories.toString();
+            RetroFitApis retroFitApis=RetrofitApiBuilder.getCargHiresapis();
+
+
         }
         else
         {
