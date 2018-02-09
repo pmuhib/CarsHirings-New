@@ -12,6 +12,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -68,12 +70,20 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 if (keyword.length()>2){
                     getLocationList(keyword,languagecode);
                 }
-//                refreshList(keyword,languagecode);
+                /*else {
+                    refreshList(keyword);
+                }*/
             }
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-
+        etSearchLocation.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                clickonDrawable(v, event);
+                return false;
+            }
+        });
         rvLocations = (RecyclerView) findViewById(R.id.rvLocations) ;
         listLocations =  new ArrayList<>();
         RecyclerView.LayoutManager layoutManager  =  new LinearLayoutManager(this);
@@ -106,6 +116,19 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 getBaseContext().getResources().getDisplayMetrics());
     }*/
 
+    boolean clickonDrawable(View v, MotionEvent event)
+    {
+        final int DRAWABLE_LEFT = 0;
+        final int DRAWABLE_TOP = 1;
+        final int DRAWABLE_RIGHT = 2;
+        final int DRAWABLE_BOTTOM = 3;
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getRawX() >= (etSearchLocation.getRight() - etSearchLocation.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                getLocationList(keyword,languagecode);
+            }
+        }
+        return true;
+    }
     public void getLocationList(String keyword, String languagecode) {
 
         final LocationSelectionActivity _this =  this ;
@@ -119,14 +142,13 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 if(response.body()!=null){
                     Log.d(TAG, "onResponse: "+response.body().status);
 
-                    if(response.body().status){
+                    if(response.body().error_code!=102){
                         Data data  = response.body().response ;
                         if(data!=null){
                             listLocations.addAll(data.location);
                             adapter.notifyDataSetChanged();
                         }
                     }else{
-                        if(response.body().error_code==102)
                             getToken(_this);
                     }
                 }
