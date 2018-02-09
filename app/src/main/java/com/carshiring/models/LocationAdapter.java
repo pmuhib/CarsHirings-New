@@ -41,7 +41,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Location location = list.get(position);
-        holder.view.setText(location.city_name);
+        holder.view.setText(location.getCity_name());
         holder.bindListener(location,listener);
     }
 

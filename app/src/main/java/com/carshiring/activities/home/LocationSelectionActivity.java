@@ -12,6 +12,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -68,12 +70,20 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 if (keyword.length()>2){
                     getLocationList(keyword,languagecode);
                 }
-//                refreshList(keyword,languagecode);
+                /*else {
+                    refreshList(keyword);
+                }*/
             }
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-
+        etSearchLocation.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                clickonDrawable(v, event);
+                return false;
+            }
+        });
         rvLocations = (RecyclerView) findViewById(R.id.rvLocations) ;
         listLocations =  new ArrayList<>();
         RecyclerView.LayoutManager layoutManager  =  new LinearLayoutManager(this);
@@ -106,12 +116,25 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 getBaseContext().getResources().getDisplayMetrics());
     }*/
 
+    boolean clickonDrawable(View v, MotionEvent event)
+    {
+        final int DRAWABLE_LEFT = 0;
+        final int DRAWABLE_TOP = 1;
+        final int DRAWABLE_RIGHT = 2;
+        final int DRAWABLE_BOTTOM = 3;
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getRawX() >= (etSearchLocation.getRight() - etSearchLocation.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                getLocationList(keyword,languagecode);
+            }
+        }
+        return true;
+    }
     public void getLocationList(String keyword, String languagecode) {
 
         final LocationSelectionActivity _this =  this ;
         Utility.showLoading(_this,"Finding Location List...");
         RetroFitApis retroFitApis =  RetrofitApiBuilder.getCarGatesapi() ;
-        Call<ApiResponse> responseCall = retroFitApis.location_list(token,keyword,languagecode) ;
+        Call<ApiResponse> responseCall = retroFitApis.location(token,keyword,languagecode) ;
         responseCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -119,14 +142,13 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 if(response.body()!=null){
                     Log.d(TAG, "onResponse: "+response.body().status);
 
-                    if(response.body().status){
+                    if(response.body().error_code!=102){
                         Data data  = response.body().response ;
                         if(data!=null){
-                            listLocations.addAll(data.locations_list);
+                            listLocations.addAll(data.location);
                             adapter.notifyDataSetChanged();
                         }
                     }else{
-                        if(response.body().error_code==102)
                             getToken(_this);
                     }
                 }
@@ -145,7 +167,7 @@ public class LocationSelectionActivity extends AppBaseActivity {
     private void refreshList(String query) {
         final List<Location> filterList = new ArrayList<>();
         for (Location location:  listLocations) {
-            if(location.city_name.trim().toLowerCase().contains(query.toLowerCase())){
+            if(location.getCity_name().trim().toLowerCase().contains(query.toLowerCase())){
                 filterList.add(location);
             }
         }

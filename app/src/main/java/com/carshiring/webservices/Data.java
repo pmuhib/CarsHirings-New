@@ -16,6 +16,6 @@ public class Data {
     public ArrayList<LanguageModel> language_list;
     public UserDetails userdetail;
     public List<SearchData> car_list ;
-    public List<Location> locations_list;
+    public List<Location> location;
 
 }
