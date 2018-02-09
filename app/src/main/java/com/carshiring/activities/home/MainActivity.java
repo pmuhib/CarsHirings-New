@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carshiring.R;
+import com.carshiring.activities.mainsetup.ChangePasswordActivity;
 import com.carshiring.activities.mainsetup.LoginActivity;
 import com.carshiring.fragments.SearchCarFragment;
 import com.carshiring.interfaces.ISubViewSetupHandler;
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }/* else {
+        }
+        else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getResources().getString(R.string.exit));
             builder.setMessage(getResources().getString(R.string.wantExit));
@@ -131,8 +133,7 @@ public class MainActivity extends AppCompatActivity
             builder.create();
             builder.show();
             //super.onBackPressed();
-        }*/
-        super.onBackPressed();
+        }
     }
 
     @Override
@@ -237,12 +238,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_currency:
                 startActivity(new Intent(MainActivity.this, CurrencyActivity.class));
                 Toast.makeText(MainActivity.this, "Currency Change", Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
 
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, ChangePasswordActivity.class));
                 Toast.makeText(MainActivity.this, "Settings Action", Toast.LENGTH_SHORT).show();
-                break;*/
+                break;
         }
     }
 

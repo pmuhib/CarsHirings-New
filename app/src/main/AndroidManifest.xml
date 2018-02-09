@@ -42,7 +42,6 @@
         <activity android:name=".activities.home.SelectFilterActivity" />
         <activity android:name=".activities.mainsetup.SignUpActivity"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.SelectFilterActivity" />
         <activity android:name=".activities.mainsetup.ForgotPasswordActivity" />
         <activity android:name=".activities.mainsetup.ChangePasswordActivity" />
         <activity android:name=".activities.home.CarsResultListActivity" />
