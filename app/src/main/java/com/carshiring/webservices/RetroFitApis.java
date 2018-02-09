@@ -64,7 +64,7 @@ public interface RetroFitApis {
 
     @FormUrlEncoded
     @POST("webservice/location")
-    Call<ApiResponse> location_list(@Field("access_token") String access_token,
+    Call<ApiResponse> location(@Field("access_token") String access_token,
                                     @Field("keyword") String keyword,
                                     @Field("language_code") String language_code);
 }

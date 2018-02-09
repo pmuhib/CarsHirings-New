@@ -111,7 +111,7 @@ public class LocationSelectionActivity extends AppBaseActivity {
         final LocationSelectionActivity _this =  this ;
         Utility.showLoading(_this,"Finding Location List...");
         RetroFitApis retroFitApis =  RetrofitApiBuilder.getCarGatesapi() ;
-        Call<ApiResponse> responseCall = retroFitApis.location_list(token,keyword,languagecode) ;
+        Call<ApiResponse> responseCall = retroFitApis.location(token,keyword,languagecode) ;
         responseCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -122,7 +122,7 @@ public class LocationSelectionActivity extends AppBaseActivity {
                     if(response.body().status){
                         Data data  = response.body().response ;
                         if(data!=null){
-                            listLocations.addAll(data.locations_list);
+                            listLocations.addAll(data.location);
                             adapter.notifyDataSetChanged();
                         }
                     }else{
@@ -145,7 +145,7 @@ public class LocationSelectionActivity extends AppBaseActivity {
     private void refreshList(String query) {
         final List<Location> filterList = new ArrayList<>();
         for (Location location:  listLocations) {
-            if(location.city_name.trim().toLowerCase().contains(query.toLowerCase())){
+            if(location.getCity_name().trim().toLowerCase().contains(query.toLowerCase())){
                 filterList.add(location);
             }
         }

@@ -539,15 +539,15 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
         }
         else if (resultCode == LocationSelectionActivity.RESPONSE_LOCATION) {
             if (requestCode == REQUEST_PICKUP_LOCATION) {
-                cityName = location.city_name;
-                pickup_loc_id = location.city_id;
+                cityName = location.getCity_name();
+                pickup_loc_id = location.getCity_id();
 
                 if (switchSameDestLocation.isChecked()) {
                     drop_loc_id = pickup_loc_id;
                 }
             } else if (requestCode == REQUEST_DESTINATION_LOCATION) {
-                drop_loc_id = location.city_id;
-                dropName = location.city_name;
+                drop_loc_id = location.getCity_id();
+                dropName = location.getCity_name();
             }
         }
     }
