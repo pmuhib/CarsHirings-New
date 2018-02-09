@@ -10,7 +10,7 @@
     <string name="permissionsetting">Please enable all Permissions. </string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="welcome">Welcome To CarsGates</string>
+    <string name="welcome">Welcome To CarsHiring</string>
     <string name="action_accounts">My Accounts</string>
     <string name="action_quotes">My Bookings</string>
     <string name="action_search_car">Book a car</string>
@@ -175,5 +175,8 @@
     <string name="txtSupplierinfo">Supplier Information</string>
     <string name="txtSave">Save and Quote</string>
     <string name="title_activity_home">HomeActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -21,6 +21,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 */
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import java.util.regex.Pattern;
 
 /**
@@ -122,7 +125,7 @@ public class Utility {
         Toast.makeText(context,Msg,Toast.LENGTH_SHORT).show();
     }
 
-/*    public static boolean checkGooglePlayService(Activity activity)
+    public static boolean checkGooglePlayService(Activity activity)
     {
         int checkGooglePlayService= GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
         int Requestcode=200;
@@ -133,7 +136,7 @@ public class Utility {
             return false;
         }
         return true;
-    }*/
+    }
 
 
 

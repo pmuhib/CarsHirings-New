@@ -92,8 +92,12 @@ public class LoginActivity extends AppBaseActivity implements View.OnClickListen
     private void login() {
         InputMethodManager methodManager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         methodManager.hideSoftInputFromWindow(toolbar.getWindowToken(),0);
+
+        username.setText("pravin@askonlinesolutions.com");
+        password.setText("123456");
         String user=username.getText().toString().trim();
         String pass=password.getText().toString().trim();
+
 
         if (!user.isEmpty() && !pass.isEmpty())
         {
@@ -197,7 +201,7 @@ public class LoginActivity extends AppBaseActivity implements View.OnClickListen
         int id=v.getId();
         switch (id) {
             case R.id.ll_forgetpassword:
-             //   startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
+                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
                 break;
             case R.id.bt_signup:
                 startActivity(new Intent(LoginActivity.this,SignUpActivity.class));

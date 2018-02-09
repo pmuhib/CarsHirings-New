@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carshiring.R;
+import com.carshiring.activities.home.MainActivity;
 import com.carshiring.activities.mainsetup.LoginActivity;
 import com.carshiring.models.LanguageModel;
 import com.carshiring.utilities.AppBaseActivity;
@@ -47,13 +48,13 @@ public class SplashActivity extends AppBaseActivity {
         // String language_code = sharedpref.getString("language_code") ;
         String language_code = "en";
 //  boolean isSkipLogin = sharedpref.getBoolean("isSkipLogin");
-        boolean isSkipLogin = true;
-      /*  if(language_code!=null && !language_code.isEmpty()) {
+        boolean isSkipLogin = false;
+        if(language_code!=null && !language_code.isEmpty()) {
 //            updateResources(this, language_code);
             if (isSkipLogin) {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
-            } else if (sharedpref.contains("userid")){
+            } else if (sharedpref.contains("login_data")){
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             } else {
@@ -61,7 +62,7 @@ public class SplashActivity extends AppBaseActivity {
             }
             finish();
             return ;
-        }*/
+        }
 
         v=findViewById(android.R.id.content);
         langlistname=new ArrayList<>();
