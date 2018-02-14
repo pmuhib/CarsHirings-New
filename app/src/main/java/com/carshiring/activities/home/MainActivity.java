@@ -1,24 +1,16 @@
 package com.carshiring.activities.home;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,8 +25,6 @@ import com.carshiring.interfaces.ISubViewSetupHandler;
 import com.carshiring.utilities.AppGlobal;
 import com.carshiring.utilities.Utility;
 import com.mukesh.tinydb.TinyDB;
-
-import java.util.Locale;
 
 /**
  * Created byRakhi on 9/2/2018.
@@ -221,12 +211,12 @@ public class MainActivity extends AppCompatActivity
                 toolbar.setTitle(getResources().getString(R.string.action_search_car));
                 break;
 
-          /*  case R.id.action_about_us:
-                startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+            case R.id.action_about_us:
+                startActivity(new Intent(MainActivity.this, CarDetailActivity.class));
                 Toast.makeText(MainActivity.this, "About US Action", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.action_contact_us:
+        /*    case R.id.action_contact_us:
                 startActivity(new Intent(MainActivity.this, ContactUsActivity.class));
                 Toast.makeText(MainActivity.this, "Contact US Action", Toast.LENGTH_SHORT).show();
                 break;

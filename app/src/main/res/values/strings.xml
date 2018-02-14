@@ -81,9 +81,7 @@
     <string name="price_l_to_h">Price (Low to High)</string>
     <string name="price_h_to_l">Price (High to Low)</string>
     <string name="rating">Rating</string>
-
     <string name="car_group">Car Group</string>
-
 
     <string name="dummy">This is a Dummy Text.</string>
     <string-array name="selectlanguage">

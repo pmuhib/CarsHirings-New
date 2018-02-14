@@ -34,7 +34,6 @@ public interface RetroFitApis {
     Call<ApiResponse> change_pass(@Field("oldpass") String oldpass,
                                   @Field("newpass") String newpass,
                                   @Field("userid") String userid);
-
     @FormUrlEncoded
     @POST("login")
     Call<ApiResponse> login(@Field("username") String username,
@@ -73,4 +72,8 @@ public interface RetroFitApis {
     Call<ApiResponse> location(@Field("access_token") String access_token,
                                     @Field("keyword") String keyword,
                                     @Field("language_code") String language_code);
+    @FormUrlEncoded
+    @POST("webservice/car_detail")
+    Call<ApiResponse> car_detail(@Field("access_token") String access_token,@Field("id_context") String id_context, @Field("type") String type,@Field("day") String day);
+
 }

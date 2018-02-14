@@ -70,7 +70,7 @@ public class CarsResultListActivity extends AppBaseActivity {
         listAdapter = new CarResultsListAdapter(this,listCarResult, new CarResultsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(SearchData carDetail) {
-//                Intent intent = new Intent(CarsResultListActivity.this,CarDetail.class);
+//                Intent intent = new Intent(CarsResultListActivity.this,CarDetailActivity.class);
 ////                intent.putExtra("car_id",carDetail.get);
 //                startActivity(intent);
             }
