@@ -78,7 +78,7 @@ public class ChangePasswordActivity extends AppBaseActivity {
                             }).show();
                 }
                 else {
-//layoutCurrentpass.setError("Please Check");
+                    //layoutCurrentpass.setError("Please Check");
                     tiEt_currentpass.setError("Check your Current password ");
                     tiEt_confirmpass.setError("Check your Confirm password ");
                     tiEt_newpass.setError("Check your New password ");
