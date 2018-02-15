@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.carshiring.R;
@@ -45,7 +46,7 @@ public class LocationSelectionActivity extends AppBaseActivity {
     AutoCompleteTextView etSearchLocation;
     private String token,cityname, languagecode, keyword,TAG = LocationSelectionActivity.class.getName();
     List<Location> listLocations;
-
+    ImageView imgBack;
     TinyDB tinyDB;
 
     @Override
@@ -59,7 +60,6 @@ public class LocationSelectionActivity extends AppBaseActivity {
 //        setLanguages(languagecode);
         actionBar=getSupportActionBar();
         if(actionBar!=null) actionBar.hide();
-
         etSearchLocation  =  findViewById(R.id.etSearchLocation) ;
         etSearchLocation.addTextChangedListener(new TextWatcher() {
             @Override
@@ -84,6 +84,8 @@ public class LocationSelectionActivity extends AppBaseActivity {
                 return false;
             }
         });
+        imgBack = findViewById(R.id.loc_back);
+
         rvLocations = (RecyclerView) findViewById(R.id.rvLocations) ;
         listLocations =  new ArrayList<>();
         RecyclerView.LayoutManager layoutManager  =  new LinearLayoutManager(this);
@@ -100,6 +102,15 @@ public class LocationSelectionActivity extends AppBaseActivity {
             }
         });
         rvLocations.setAdapter(adapter);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                finish();
+            }
+        });
+
 //        getLocationList();
     }
 
@@ -129,7 +140,11 @@ public class LocationSelectionActivity extends AppBaseActivity {
         }
         return true;
     }
+
     public void getLocationList(String keyword, String languagecode) {
+        if (listLocations!=null){
+            listLocations.clear();
+        }
 
         final LocationSelectionActivity _this =  this ;
         Utility.showLoading(_this,"Finding Location List...");
@@ -145,8 +160,13 @@ public class LocationSelectionActivity extends AppBaseActivity {
                     if(response.body().error_code!=102){
                         Data data  = response.body().response ;
                         if(data!=null){
-                            listLocations.addAll(data.location);
-                            adapter.notifyDataSetChanged();
+                            if (data.location.size()>0){
+                                listLocations.addAll(data.location);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Utility.message(getApplicationContext(), "Location not found");
+                            }
+
                         }
                     }else{
                             getToken(_this);
@@ -164,13 +184,8 @@ public class LocationSelectionActivity extends AppBaseActivity {
 
     }
 
-    private void refreshList(String query) {
-        final List<Location> filterList = new ArrayList<>();
-        for (Location location:  listLocations) {
-            if(location.getCity_name().trim().toLowerCase().contains(query.toLowerCase())){
-                filterList.add(location);
-            }
-        }
+    private void refreshList(List<Location> filterList) {
+        filterList = new ArrayList<>();
 
         adapter = new LocationAdapter(filterList, new LocationAdapter.OnItemClickListener() {
             @Override

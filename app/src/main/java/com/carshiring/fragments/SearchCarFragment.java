@@ -80,7 +80,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
     private String token ;
     Calendar calendar_pick, calendar_drop;
 
-    static String cityName,pickup_loc_id,drop_loc_id, dropName;
+    static String cityName="",pickup_loc_id="",drop_loc_id="", dropName="";
 
     int useCurrentLocation = 0;
     int useSameDestLocation = 0;
@@ -96,7 +96,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
         view = inflater.inflate(R.layout.fragment_search_car, container, false);
         tinyDB = new TinyDB(getActivity().getApplicationContext());
         token = tinyDB.getString("access_token");
-        languagecode = tinyDB.getString("language_id");
+        languagecode = tinyDB.getString("language_code");
         et_return_location = (EditText) view.findViewById(R.id.et_return_location);
         et_return_location.setOnClickListener(this);
         et_pickup_location = (EditText) view.findViewById(R.id.et_pickup_location);
@@ -425,9 +425,9 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
 
     private void requestForSearchCar() {
 
-        /*if(!validateData()){
+        if(!validateData()){
             return ;
-        }*/
+        }
 
         Utility.showLoading(getActivity(),"Searching cars...");
         final SearchCarFragment _this = SearchCarFragment.this ;
@@ -445,13 +445,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 "&use_current_location="+useCurrentLocation+"&sameas_pick_location="+useSameDestLocation +
                 "&between_driver_age="+isBetweenDriverAge +"&lat="+currentLat+"&long="+currentLng);
 
-        /*access_token=4ca2a0341708ab9f74164f6e6b75f8d63825c80d&pick_city=1&pick_date=2018-02-08&pick_houre
-        =10&pick_minute=15&drop_city=1&drop_date=2018-02-10&drop_houre=10&drop_minute=15&driver_age
-        =&use_current_location=0&sameas_pick_location=1&between_driver_age=1&lat=28.5929202&long=77.3163672&location_code
-        =4339&location_iata
-        =TXL&location_type=a&location_code_drop=4339&location_iata_drop=TXL&location_type_drop=a&language_code=en*/
-        pickup_loc_id = "1";
-        token="4ca2a0341708ab9f74164f6e6b75f8d63825c80d";
+//        pickup_loc_id = "1";
         pick_date ="2018-02-20";
         pick_hour ="10";
         pick_minute="15";
@@ -463,19 +457,16 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
         useCurrentLocation=0;
         useSameDestLocation=1;
         isBetweenDriverAge=1;
-        currentLat=28.5929202;
-        currentLng=77.3163672;
         location_code="4339";
         location_iata="TXL";
         location_type="a";
         location_code_drop="4339";
         location_iata_drop="TXL";
         location_type_drop="a";
-        languagecode = "en";
 
-        Call<ApiResponse> responseCall = retroFitApis.search("4ca2a0341708ab9f74164f6e6b75f8d63825c80d","1",
-                "2018-02-09","10",
-                "15","1","2018-02-11","10","15","",useCurrentLocation,
+        Call<ApiResponse> responseCall = retroFitApis.search(token,"1",
+                pick_date,pick_hour,
+                "15","1",drop_date,"10","15","",useCurrentLocation,
                 useSameDestLocation,1,currentLat,currentLng,location_code,location_iata,
                 location_type,location_code_drop,location_iata_drop,location_type_drop,languagecode) ;
         final Gson gson = new Gson();
@@ -497,11 +488,11 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                         ArrayList<SearchData>searchData1 = new ArrayList<>();
                         searchData1.addAll(searchData);
 
-//                        chooseSearchAction(data);
+                        chooseSearchAction(searchData);
 
 //                        for testing
-                        Intent  intent = new Intent(getActivity(), CarsResultListActivity.class);
-                        startActivity(intent);
+                       /* Intent  intent = new Intent(getActivity(), CarsResultListActivity.class);
+                        startActivity(intent);*/
 
                     }else{
                         if(response.body().error_code==102)
@@ -510,12 +501,6 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 }
                 Toast.makeText(getActivity(), response.body().msg, Toast.LENGTH_SHORT).show();
 
-
-//                for test data
-          /*      Intent intent = new Intent(getActivity(), CarsResultListActivity.class);
-
-//                intent.putExtra("car_list", (Serializable) car_list) ;
-                startActivity(intent);*/
             }
 
             @Override
