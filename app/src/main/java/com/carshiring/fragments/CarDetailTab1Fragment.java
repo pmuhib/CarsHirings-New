@@ -1,11 +1,9 @@
 package com.carshiring.fragments;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.carshiring.R;
 
-
-import java.util.List;
+import com.carshiring.activities.home.CarDetailActivity;
 
 /**
  * Created by Muhib.
@@ -69,7 +66,7 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
         super.onActivityCreated(savedInstanceState);
         bar.setVisibility(View.VISIBLE);
         bar1.setVisibility(View.VISIBLE);
-     /*   Glide.with(getContext()).load(CarDetail.carImage).listener(new RequestListener<Drawable>() {
+        Glide.with(getContext()).load(CarDetailActivity.carImage).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 bar.setVisibility(View.GONE);
@@ -81,8 +78,8 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                 bar.setVisibility(View.GONE);
                 return false;
             }
-        }).into(carImg);*/
-       /* Glide.with(getContext()).load(CarDetail.logo).listener(new RequestListener<Drawable>() {
+        }).into(carImg);
+        Glide.with(getContext()).load(CarDetailActivity.logo).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 bar1.setVisibility(View.GONE);
@@ -94,10 +91,10 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                 bar1.setVisibility(View.GONE);
                 return false;
             }
-        }).into(imglogo);*/
-     /*   carname.setText(CarDetail.modelname);
-        carprice.setText(CarDetail.carPrice);
-        if(carSpecificationList!=null)
+        }).into(imglogo);
+        carname.setText(CarDetailActivity.modelname);
+        carprice.setText(CarDetailActivity.currency+"  "+CarDetailActivity.carPrice);
+      /*  if(carSpecificationList!=null)
         {
             int total=carSpecificationList.size();
             int col=2;
