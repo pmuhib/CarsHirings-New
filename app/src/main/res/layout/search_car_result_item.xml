@@ -14,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:id="@+id/txtPlaceName"
         android:text="New Delhi Downtown"
         android:textStyle="bold"/>
     <LinearLayout
@@ -77,19 +78,36 @@
     <HorizontalScrollView
         android:background="@drawable/fill_border_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/spec1Container"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             >
-            <include layout="@layout/spec1_item" />
-            <include layout="@layout/spec1_item" />
-            <include layout="@layout/spec1_item" />
-            <include layout="@layout/spec1_item" />
-            <include layout="@layout/spec1_item" />
+            <TextView
+
+                android:layout_alignParentBottom="true"
+                android:id="@+id/tvBagSp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:padding="5dp"
+                android:text="Bag"
+                android:drawableTop="@drawable/ic_bag"
+                android:drawablePadding="5dp"/>
+
+            <TextView
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Door"
+                android:id="@+id/tvDoor"
+                android:textSize="10sp"
+                android:drawableTop="@drawable/ic_car_door"
+                android:drawablePadding="5dp"/>
+
 
         </LinearLayout>
 
@@ -130,15 +148,56 @@
                 android:textColor="@color/greenish_yellow"
                 android:text="Points Collected: 356" />
         </LinearLayout>
-        <ImageView
-            android:id="@+id/imgCarAgencyLogo"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_brand_logo"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="90dp"
-            android:scaleType="fitCenter"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true">
+            <FrameLayout
+                android:layout_alignParentEnd="true"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgCarAgencyLogo"
+                    android:layout_gravity="right|bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:scaleType="fitXY"/>
+                <ProgressBar
+                    android:visibility="gone"
+                    android:layout_margin="5dp"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/progressbar"/>
+
+
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSupplierName"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:text="suppled by"/>
+
+        </LinearLayout>
+
+
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dropCity"
+        android:padding="5dp"
+        android:drawablePadding="5dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/black"
+        android:drawableStart="@drawable/ic_drop"
+        android:text="Drop"/>
 
     <LinearLayout
         android:background="@drawable/border_bg"

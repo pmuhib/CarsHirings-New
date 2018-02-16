@@ -7,16 +7,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <ImageView
-        android:layout_above="@+id/tvCarSpec1"
+        android:layout_above="@+id/tvBagSp"
         android:layout_centerHorizontal="true"
         android:paddingBottom="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_seat"/>
+        android:src="@drawable/ic_bag"/>
     <TextView
 
         android:layout_alignParentBottom="true"
-        android:id="@+id/tvCarSpec1"
+        android:id="@+id/tvBagSp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="7 seats"

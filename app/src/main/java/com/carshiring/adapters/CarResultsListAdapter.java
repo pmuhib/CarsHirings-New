@@ -2,18 +2,23 @@ package com.carshiring.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.carshiring.R;
+import com.carshiring.fragments.SearchCarFragment;
 import com.carshiring.models.SearchData;
 
 import java.util.List;
+
+import static com.carshiring.splash.SplashActivity.TAG;
 
 
 /**
@@ -25,6 +30,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
     final OnItemClickListener listener;
     private final Context context;
     List<SearchData> list;
+    ProgressBar bar1;
 
     public interface  OnItemClickListener {
         void onItemClick(SearchData carDetail);
@@ -39,15 +45,32 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  =  LayoutInflater.from(parent.getContext()).inflate(R.layout.search_car_result_item,parent,false);
+
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         SearchData model=list.get(position);
-
+        holder.tvPickDate.setText(SearchCarFragment.pickName);
         holder.tvCarModelName.setText(model.getModel());
-        holder.tvCarPricing.setText(" SAR 341.30 / 2 day\t");
+        holder.txtSupplierNmae.setText("Supplied By : "+model.getSupplier());
+        holder.txtDropCity.setText(model.getDrop_city());
+        if (model.getFeature().getBag().equals("0")){
+            holder.tvBagNo.setVisibility(View.GONE);
+        }
+        holder.tvBagNo.setText(model.getFeature().getBag() +" Large Bag");
+        holder.tvCarPricing.setText(model.getCurrency() +" "+model.getDeposit_price()+" /"+ model.getTime()+" "+model.getTime_unit());
+        holder.tvTodate.setText(SearchCarFragment.drop_date+"\n"+SearchCarFragment.dropTime);
+        holder.tvFromDate.setText(SearchCarFragment.pick_date+"\n"+ SearchCarFragment.pickTime);
+        holder.txtDoor.setText(model.getFeature().getDoor()+ " Doors");
+        Glide.with(context)
+                .load(model.getSupplier_logo())
+        .into(holder.imgCarAgencyLogo);
+        Glide.with(context)
+                .load(model.getImage())
+                .into(holder.imgCarResult);
+        bar1.setVisibility(View.GONE);
         holder.bindListener(model,listener);
     }
 
@@ -57,14 +80,27 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCarModelName,tvCarPricing;
+        TextView tvCarModelName,tvCarPricing,tvPickDate,txtSupplierNmae, tvBagNo,tvFromDate, tvTodate,
+                txtDropCity,txtDoor;
         LinearLayout spec1Container ;
         private View itemView  ;
         ImageView imgCarResult,imgCarAgencyLogo ;
         public MyViewHolder(View itemView) {
             super(itemView);
+
+            bar1= (ProgressBar) itemView.findViewById(R.id.progressbar);
             tvCarModelName= (TextView) itemView.findViewById(R.id.tvCarModelName);
             tvCarPricing= (TextView) itemView.findViewById(R.id.tvCarPricing);
+            tvPickDate= (TextView) itemView.findViewById(R.id.txtPlaceName);
+            tvFromDate= (TextView) itemView.findViewById(R.id.tvFromDT);
+            tvTodate= (TextView) itemView.findViewById(R.id.tvToDT);
+            tvBagNo = itemView.findViewById(R.id.tvBagSp);
+            txtSupplierNmae = itemView.findViewById(R.id.txtSupplierName);
+            txtDoor = itemView.findViewById(R.id.tvDoor);
+            txtDropCity = itemView.findViewById(R.id.dropCity);
+            bar1.setVisibility(View.VISIBLE);
+
+
             spec1Container= (LinearLayout) itemView.findViewById(R.id.spec1Container) ;
             imgCarResult= (ImageView) itemView.findViewById(R.id.imgCarResult) ;
             imgCarAgencyLogo= (ImageView) itemView.findViewById(R.id.imgCarAgencyLogo) ;

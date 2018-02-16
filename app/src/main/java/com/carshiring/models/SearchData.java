@@ -1,8 +1,5 @@
 package com.carshiring.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,7 +8,39 @@ import java.util.List;
  * Created by rakhi on 9/2/2018.
  */
 
-public class SearchData implements Parcelable{
+public class SearchData{
+
+            /**
+             * status : Available
+             * feature : {"aircondition":"true","transmission":"Manual","fueltype":"Petrol","bag":"0","door":"2"}
+             * covprice :
+             * covcurrency :
+             * category : 1
+             * model : FORD KA
+             * model_code : MBMR
+             * image : https://static.carhire-solutions.com/images/car/Alamo/large/t_MBMR_DE.jpg
+             * package : SilverPackage
+             * price : 332.33
+             * currency : SAR
+             * time_unit : Day
+             * time : 3
+             * id_context : 62195346536011513679453762
+             * refer_type : 16
+             * deposit_currency : EUR
+             * deposit_price : 1150
+             * deposit_desc : Upon collection of the car a security deposit will be blocked on the driver’s credit card. This deposit is determined by supplier considering your selected car category. The value of one tank of fuel and possible traffic fines can be additionally blocked on a valid credit card (prepaid debit cards, prepaid credit cards and cash cannot be accepted).
+             For luxury cars two credit cards in the same name are required for all rentals. The credit card must not be from the same issuer. Please note some suppliers will not accept American Express, Visa Premier or Diners Club credit cards, we strongly recommend to use a Visa or Mastercard. In the event that you fail to produce a valid credit card or have insufficient funds available the car rental agent may refuse to release the vehicle. In this instance no funds will be reimbursed.Estimated deposit amount: EUR 1150
+             * deposit_name : Estimated deposit amount
+             * supplier : Alamo
+             * supplier_city : BERLIN FLUGHAGEN TEGEL
+             * supplier_logo : https://static.carhire-solutions.com/images/supplier/logo/logo36.png
+             * drop_city : BERLIN FLUGHAGEN TEGEL
+             * tc : https://createpdf.carhire-solutions.com/termsandconditions.aspx?reference=62195346536011513679453762&languageId=2
+             * rule : Prepayment: Full rental price due at time of reservation. For the local pick up the card holder (DRIVER) must provide a valid credit card. Prepaid or debit cards, such as Maestro, Visa electron, Visa Premier or Carte Bleue are not accepted.
+             * coverages : [{"code":"416","name":"Kilometer inclusive: 900 km (0,37 EUR/km)","currency":null,"amount":null,"desc":null,"currency2":"EUR","amount2":"0.37"},{"code":"418","name":"Other taxes and service charges","currency":null,"amount":null,"desc":null,"currency2":"EUR","amount2":"19.43"},{"code":"CDW","name":"Collision damage waiver","currency":"USD","amount":"0.00","desc":"Maximum excess of 1,000 EUR to be paid in the case of damage. Please note that comprehensive insurance does not cover damage to wheels, tires, mirrors and underbody","currency2":null,"amount2":"0.00"},{"code":"SLI","name":"Supplementary Liability Insurance","currency":"USD","amount":"0.00","desc":"Legally required, insurance for damages on the adversarial vehicle, persons and objects- In this offer it is included.","currency2":null,"amount2":"0.00"},{"code":"TP","name":"Theft protection","currency":"USD","amount":"0.00","desc":"In case of theft, there is an excess of 1,000 EUR.  Please note: this does not cover loss of personal items.","currency2":null,"amount2":"0.00"},{"code":"OW","name":"One way rental","currency":"USD","amount":"0.00","desc":"Onewayrental fees are included","currency2":null,"amount2":"0.00"},{"code":"L2L","name":"Fuel Information","currency":"USD","amount":"0.00","desc":"Level to Level: The vehicle should be returned with the same amount of fuel as delivered.","currency2":null,"amount2":"0.00"},{"code":"TAX","name":"VAT","currency":"USD","amount":"0.00","desc":"The rate corresponds with the VAT-rate of the particular country.","currency2":null,"amount2":"0.00"},{"code":"CF","name":"Cancellation fee","currency":null,"amount":null,"desc":null,"currency2":null,"amount2":null}]
+             * type : 0
+             */
+
             private String status;
             private FeatureBean feature;
             private String covprice;
@@ -41,49 +70,7 @@ public class SearchData implements Parcelable{
             private String type;
             private List<CoveragesBean> coverages;
 
-    protected SearchData(Parcel in) {
-        status = in.readString();
-        feature = in.readParcelable(FeatureBean.class.getClassLoader());
-        covprice = in.readString();
-        covcurrency = in.readString();
-        category = in.readString();
-        model = in.readString();
-        model_code = in.readString();
-        image = in.readString();
-        packageX = in.readString();
-        price = in.readString();
-        currency = in.readString();
-        time_unit = in.readString();
-        time = in.readString();
-        id_context = in.readString();
-        refer_type = in.readString();
-        deposit_currency = in.readString();
-        deposit_price = in.readString();
-        deposit_desc = in.readString();
-        deposit_name = in.readString();
-        supplier = in.readString();
-        supplier_city = in.readString();
-        supplier_logo = in.readString();
-        drop_city = in.readString();
-        tc = in.readString();
-        rule = in.readString();
-        type = in.readString();
-        coverages = in.createTypedArrayList(CoveragesBean.CREATOR);
-    }
-
-    public static final Creator<SearchData> CREATOR = new Creator<SearchData>() {
-        @Override
-        public SearchData createFromParcel(Parcel in) {
-            return new SearchData(in);
-        }
-
-        @Override
-        public SearchData[] newArray(int size) {
-            return new SearchData[size];
-        }
-    };
-
-    public String getStatus() {
+            public String getStatus() {
                 return status;
             }
 
@@ -299,43 +286,7 @@ public class SearchData implements Parcelable{
                 this.coverages = coverages;
             }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(status);
-        parcel.writeParcelable(feature, i);
-        parcel.writeString(covprice);
-        parcel.writeString(covcurrency);
-        parcel.writeString(category);
-        parcel.writeString(model);
-        parcel.writeString(model_code);
-        parcel.writeString(image);
-        parcel.writeString(packageX);
-        parcel.writeString(price);
-        parcel.writeString(currency);
-        parcel.writeString(time_unit);
-        parcel.writeString(time);
-        parcel.writeString(id_context);
-        parcel.writeString(refer_type);
-        parcel.writeString(deposit_currency);
-        parcel.writeString(deposit_price);
-        parcel.writeString(deposit_desc);
-        parcel.writeString(deposit_name);
-        parcel.writeString(supplier);
-        parcel.writeString(supplier_city);
-        parcel.writeString(supplier_logo);
-        parcel.writeString(drop_city);
-        parcel.writeString(tc);
-        parcel.writeString(rule);
-        parcel.writeString(type);
-        parcel.writeTypedList(coverages);
-    }
-
-    public static class FeatureBean implements Parcelable{
+            public static class FeatureBean {
                 /**
                  * aircondition : true
                  * transmission : Manual
@@ -350,27 +301,7 @@ public class SearchData implements Parcelable{
                 private String bag;
                 private String door;
 
-        protected FeatureBean(Parcel in) {
-            aircondition = in.readString();
-            transmission = in.readString();
-            fueltype = in.readString();
-            bag = in.readString();
-            door = in.readString();
-        }
-
-        public static final Creator<FeatureBean> CREATOR = new Creator<FeatureBean>() {
-            @Override
-            public FeatureBean createFromParcel(Parcel in) {
-                return new FeatureBean(in);
-            }
-
-            @Override
-            public FeatureBean[] newArray(int size) {
-                return new FeatureBean[size];
-            }
-        };
-
-        public String getAircondition() {
+                public String getAircondition() {
                     return aircondition;
                 }
 
@@ -409,26 +340,12 @@ public class SearchData implements Parcelable{
                 public void setDoor(String door) {
                     this.door = door;
                 }
+            }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(aircondition);
-            parcel.writeString(transmission);
-            parcel.writeString(fueltype);
-            parcel.writeString(bag);
-            parcel.writeString(door);
-        }
-    }
-
-            public static class CoveragesBean implements Parcelable{
+            public static class CoveragesBean {
                 /**
                  * code : 416
-                 * name : Kilometer inclusive: 600 km (0,37 EUR/km)
+                 * name : Kilometer inclusive: 900 km (0,37 EUR/km)
                  * currency : null
                  * amount : null
                  * desc : null
@@ -443,25 +360,6 @@ public class SearchData implements Parcelable{
                 private Object desc;
                 private String currency2;
                 private String amount2;
-
-                protected CoveragesBean(Parcel in) {
-                    code = in.readString();
-                    name = in.readString();
-                    currency2 = in.readString();
-                    amount2 = in.readString();
-                }
-
-                public static final Creator<CoveragesBean> CREATOR = new Creator<CoveragesBean>() {
-                    @Override
-                    public CoveragesBean createFromParcel(Parcel in) {
-                        return new CoveragesBean(in);
-                    }
-
-                    @Override
-                    public CoveragesBean[] newArray(int size) {
-                        return new CoveragesBean[size];
-                    }
-                };
 
                 public String getCode() {
                     return code;
@@ -518,20 +416,6 @@ public class SearchData implements Parcelable{
                 public void setAmount2(String amount2) {
                     this.amount2 = amount2;
                 }
-
-                @Override
-                public int describeContents() {
-                    return 0;
-                }
-
-                @Override
-                public void writeToParcel(Parcel parcel, int i) {
-                    parcel.writeString(code);
-                    parcel.writeString(name);
-                    parcel.writeString(currency2);
-                    parcel.writeString(amount2);
-                }
             }
-
 
 }
