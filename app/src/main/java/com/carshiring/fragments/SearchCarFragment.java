@@ -80,12 +80,13 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
     drop_hour="",drop_minute="",pick_minute="",pick_hour="",pickTime="", dropTime="";
 
     int useCurrentLocation = 0;
-    int useSameDestLocation = 0;
-    int isBetweenDriverAge = 0 ;
+    int useSameDestLocation = 1;
+    int isBetweenDriverAge = 1 ;
     int pick_hours,pick_minutes,drop_hours, drop_minutes;
     private double currentLat,currentLng;
-    String driver_age ,  languagecode ,
-            location_code,location_iata,location_type,location_code_drop,location_iata_drop,location_type_drop;
+    String driver_age="",languagecode ,
+            location_code="",location_iata="",location_type="",location_code_drop="",location_iata_drop="",
+            location_type_drop="";
 
     @Nullable
     @Override
@@ -112,6 +113,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                     et_return_location.setVisibility(View.GONE);
                     if (pickup_loc_id != null && !pickup_loc_id.isEmpty())
                         drop_loc_id = pickup_loc_id;
+
                 } else {
                     drop_loc_id = null ;
                     et_return_location.setVisibility(View.VISIBLE);
@@ -124,6 +126,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    driver_age="";
                     et_driver_age.setVisibility(View.GONE);
                 } else {
                     et_driver_age.setVisibility(View.VISIBLE);
@@ -190,7 +193,6 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
         final Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
@@ -214,6 +216,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 pickTime= timeStr;
                 calendar_pick.set(calendar_pick.get(Calendar.YEAR),calendar_pick.get(Calendar.MONTH),
                         calendar_pick.get(Calendar.DAY_OF_MONTH),i,i1);
+                calendar_pick.add(Calendar.DATE,3);
                 bindTimeToGUI("returning", calendar_drop.get(Calendar.HOUR_OF_DAY), calendar_drop.get(Calendar.MINUTE));
                 break;
 
@@ -234,13 +237,11 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2017, 3, 1, hoursOfDay, minutes);
-
         SimpleDateFormat monthFormat = new SimpleDateFormat("h:mm a", Locale.US);
         result = monthFormat.format(calendar.getTime());
 
         return result;
     }
-
 
     private void showDataPicker(final String type) {
         Calendar calendar = calendar_pick;
@@ -267,12 +268,14 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 final LinearLayout dt_picker_journey = (LinearLayout) view.findViewById(R.id.dt_picker_journey);
                 final TextView tvJourneyDatePicker = (TextView) dt_picker_journey.findViewById(R.id.tvDateDayValue);
                 final TextView tvJourneyDateDayNameWithMonthName = (TextView) dt_picker_journey.findViewById(R.id.tvDateDayNameWithMonthName);
+
+                calendar_pick.set(i,i1,i2);
                 tvJourneyDatePicker.setText(String.valueOf(i2));
                 tvJourneyDateDayNameWithMonthName.setText(dayMon);
                 pick_date = dateValueString;
-                calendar_pick.set(i,i1,i2);
                 calendar_drop  = (Calendar) calendar_pick.clone();
                 calendar_drop.add(Calendar.DATE,3);
+
                 bindDateToGUI("returning", calendar_drop.get(Calendar.YEAR), calendar_drop.get(Calendar.MONTH), calendar_drop.get(Calendar.DAY_OF_MONTH));
                 break;
 
@@ -295,6 +298,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
+        calendar.add(Calendar.DATE,2);
 
         SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         result = monthFormat.format(calendar.getTime());
@@ -326,7 +330,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
         et_pickup_location.setInputType(InputType.TYPE_NULL);
         et_pickup_location.setFocusable(false);
 
-        switchSameDestLocation = (SwitchCompat) view.findViewById(R.id.switchSameDestLocation);
+//        switchSameDestLocation = (SwitchCompat) view.findViewById(R.id.switchSameDestLocation);
         switchSameDestLocation.setChecked(searchQuery.isDestAsPickup);
 
         switchDriverAge = (SwitchCompat) view.findViewById(R.id.switchDriverAge);
@@ -422,10 +426,9 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
 
 
     private void requestForSearchCar() {
-/*
         if(!validateData()){
             return ;
-        }*/
+        }
 
         Utility.showLoading(getActivity(),"Searching cars...");
         final SearchCarFragment _this = SearchCarFragment.this ;
@@ -436,30 +439,17 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
 
         drop_minute=String.valueOf(drop_minutes>9?drop_minutes:"0"+drop_minutes);
          drop_hour=String.valueOf(drop_hours>9?drop_hours:"0"+drop_hours);
-
-//        pickup_loc_id = "1";
-        pick_date ="2018-02-20";
-        pick_hour ="10";
-        pick_minute="15";
-        drop_loc_id = "1";
-        drop_date="2018-02-22";
-        drop_hour ="10";
-        drop_minute="15";
-        driver_age="1";
-        useCurrentLocation=0;
-        useSameDestLocation=1;
-        isBetweenDriverAge=1;
-        location_code="4339";
-        location_iata="TXL";
-        location_type="a";
-        location_code_drop="4339";
-        location_iata_drop="TXL";
-        location_type_drop="a";
-
-        Call<ApiResponse> responseCall = retroFitApis.search(token,"1",
+        if (switchSameDestLocation.isChecked()){
+            dropName = pickName;
+            location_code_drop =location_code;
+            location_iata_drop = location_iata;
+            location_type_drop = location_type;
+        }
+        Call<ApiResponse> responseCall = retroFitApis.search(token,pickName,
                 pick_date,pick_hour,
-                "15","1",drop_date,"10","15","",useCurrentLocation,
-                useSameDestLocation,1,currentLat,currentLng,location_code,location_iata,
+                pick_minute,dropName,drop_date,drop_hour,drop_minute,driver_age,
+                useCurrentLocation, useSameDestLocation,isBetweenDriverAge,currentLat,
+                currentLng,location_code,location_iata,
                 location_type,location_code_drop,location_iata_drop,location_type_drop,languagecode) ;
         final Gson gson = new Gson();
         responseCall.enqueue(new Callback<ApiResponse>() {
@@ -515,6 +505,9 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
             if (requestCode == REQUEST_PICKUP_LOCATION) {
                 pickName = location.getCity_name();
                 pickup_loc_id = location.getCity_id();
+                location_code = location.getCode();
+                location_iata = location.getIata();
+                location_type = location.getType();
 
                 if (switchSameDestLocation.isChecked()) {
                     drop_loc_id = pickup_loc_id;
@@ -522,6 +515,9 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
             } else if (requestCode == REQUEST_DESTINATION_LOCATION) {
                 drop_loc_id = location.getCity_id();
                 dropName = location.getCity_name();
+                location_code_drop = location.getCode();
+                location_iata_drop = location.getIata();
+                location_type_drop = location.getType();
             }
         }
     }
@@ -598,10 +594,11 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 return false;
             }
             if(switchSameDestLocation.isChecked()){
-                useSameDestLocation = 1 ;
+                useSameDestLocation = 0;
                 drop_loc_id = pickup_loc_id ;
             }else {
                 if(drop_loc_id==null || drop_loc_id.trim().isEmpty()){
+                    useSameDestLocation = 1;
                     Toast.makeText(activity, "Please select drop location.", Toast.LENGTH_SHORT).show();
                     return false ;
                 }
@@ -620,7 +617,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 }
             }else{
                 drop_loc_id= "";
-                useSameDestLocation = 1 ;
+                useSameDestLocation = 0 ;
             }
 
         }

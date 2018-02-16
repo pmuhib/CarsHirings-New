@@ -1,6 +1,8 @@
 package com.carshiring.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +53,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        SearchData model=list.get(position);
+        final SearchData model=list.get(position);
         holder.tvPickDate.setText(SearchCarFragment.pickName);
         holder.tvCarModelName.setText(model.getModel());
         holder.txtSupplierNmae.setText("Supplied By : "+model.getSupplier());
@@ -60,10 +62,25 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
             holder.tvBagNo.setVisibility(View.GONE);
         }
         holder.tvBagNo.setText(model.getFeature().getBag() +" Large Bag");
-        holder.tvCarPricing.setText(model.getCurrency() +" "+model.getDeposit_price()+" /"+ model.getTime()+" "+model.getTime_unit());
+        holder.tvCarPricing.setText(model.getCurrency() +" "+model.getDeposit_price()+" /"+ model.getTime()
+                +" "+model.getTime_unit());
         holder.tvTodate.setText(SearchCarFragment.drop_date+"\n"+SearchCarFragment.dropTime);
         holder.tvFromDate.setText(SearchCarFragment.pick_date+"\n"+ SearchCarFragment.pickTime);
         holder.txtDoor.setText(model.getFeature().getDoor()+ " Doors");
+        if (model.getFeature().getAircondition().equals("true")){
+            holder.txtClass.setVisibility(View.VISIBLE);
+        }
+        holder.txtTrans.setText(model.getFeature().getTransmission());
+        holder.txtFuel.setText(model.getFeature().getFueltype());
+        holder.txtTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = model.getTc();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                context.startActivity(i);
+            }
+        });
         Glide.with(context)
                 .load(model.getSupplier_logo())
         .into(holder.imgCarAgencyLogo);
@@ -80,8 +97,8 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCarModelName,tvCarPricing,tvPickDate,txtSupplierNmae, tvBagNo,tvFromDate, tvTodate,
-                txtDropCity,txtDoor;
+        TextView tvCarModelName,tvCarPricing,tvPickDate,txtClass,txtSupplierNmae, tvBagNo,tvFromDate, tvTodate,
+                txtDropCity,txtDoor,txtTrans, txtTerms,txtFuel;
         LinearLayout spec1Container ;
         private View itemView  ;
         ImageView imgCarResult,imgCarAgencyLogo ;
@@ -99,6 +116,10 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
             txtDoor = itemView.findViewById(R.id.tvDoor);
             txtDropCity = itemView.findViewById(R.id.dropCity);
             bar1.setVisibility(View.VISIBLE);
+            txtClass = itemView.findViewById(R.id.txtac);
+            txtTrans = itemView.findViewById(R.id.txttrans);
+            txtTerms = itemView.findViewById(R.id.txtTermsCond);
+            txtFuel = itemView.findViewById(R.id.txtFuel);
 
 
             spec1Container= (LinearLayout) itemView.findViewById(R.id.spec1Container) ;

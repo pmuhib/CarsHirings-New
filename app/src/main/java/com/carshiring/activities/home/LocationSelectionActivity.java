@@ -28,6 +28,7 @@ import com.carshiring.webservices.Data;
 import com.carshiring.webservices.Location;
 import com.carshiring.webservices.RetroFitApis;
 import com.carshiring.webservices.RetrofitApiBuilder;
+import com.google.gson.Gson;
 import com.mukesh.tinydb.TinyDB;
 
 import java.util.ArrayList;
@@ -154,8 +155,9 @@ public class LocationSelectionActivity extends AppBaseActivity {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Utility.hidepopup();
+                Gson  gson =new Gson();
                 if(response.body()!=null){
-                    Log.d(TAG, "onResponse: "+response.body().status);
+                    Log.d(TAG, "onResponse: "+gson.toJson(response.body().response));
 
                     if(response.body().error_code!=102){
                         Data data  = response.body().response ;
