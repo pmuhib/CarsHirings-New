@@ -74,6 +74,6 @@ public interface RetroFitApis {
                                     @Field("language_code") String language_code);
     @FormUrlEncoded
     @POST("webservice/car_detail")
-    Call<ApiResponse> car_detail(@Field("access_token") String access_token,@Field("id_context") String id_context, @Field("type") String type,@Field("day") String day);
-
+    Call<ApiResponse> car_detail(@Field("access_token") String access_token,@Field("id_context") String id_context, @Field("type") String type,@Field("day") String day,
+    @Field("refer_type") String refer_type);
 }

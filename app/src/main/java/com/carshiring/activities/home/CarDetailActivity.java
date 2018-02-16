@@ -32,14 +32,15 @@ import retrofit2.Retrofit;
 
 public class CarDetailActivity extends AppCompatActivity {
     String access_token="c9296133ffd83e0ebba5ccd9d489e0ea898e6fe5";
-    String id_context="4";
-    String type="1";
+    String type="0";
+    String refer_type="16";
     String day="2";
+    String id_context="62194921151128510635730240";
     TabLayout tabLayout;
     Page_Adapter adapter;
     ActionBar actionBar;
     TinyDB sharpref;
-    public static String token,logo,carPrice,carImage,modelname;
+    public static String token,logo,carPrice,carImage,modelname,currency;
     Gson gson = new Gson();
    /* public static SingleCarDetails singleCarDetails = new SingleCarDetails();
     public static List<CarSpecification> spec=new ArrayList<>();
@@ -53,12 +54,22 @@ public class CarDetailActivity extends AppCompatActivity {
     }
     private void setupApi() {
         RetroFitApis retroFitApis= RetrofitApiBuilder.getCarGatesapi();
-        Call<ApiResponse> apiResponseCall=retroFitApis.car_detail(access_token,id_context,type,day);
+        Call<ApiResponse> apiResponseCall=retroFitApis.car_detail(access_token,id_context,type,day,refer_type);
         apiResponseCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                String availability=response.body().response.car_detail.getStatus();
-                Log.d("respsonse",availability);
+            /*    String availability=response.body().response.car_detail.category;
+                Log.d("respsonse",availability);*/
+                carImage=response.body().response.car_detail.image;
+                Log.d("respsonse",carImage);
+                logo=response.body().response.car_detail.supplier_logo;
+                Log.d("respsonse",logo);
+                modelname=response.body().response.car_detail.model;
+                carPrice=response.body().response.car_detail.price;
+                currency=response.body().response.car_detail.currency;
+
+                handletablayout();
+
             }
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
@@ -70,7 +81,6 @@ public class CarDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        handletablayout();
     }
 
     private void handletablayout() {
