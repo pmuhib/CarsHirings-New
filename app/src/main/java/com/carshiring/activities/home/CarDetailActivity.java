@@ -16,6 +16,8 @@ import com.carshiring.adapters.Page_Adapter;
 import com.carshiring.fragments.CarDetailTab1Fragment;
 import com.carshiring.fragments.CarDetailTab2Fragment;
 import com.carshiring.fragments.CarDetailTab3Fragment;
+import com.carshiring.models.CarDetailBean;
+import com.carshiring.models.ExtraBean;
 import com.carshiring.webservices.ApiResponse;
 import com.carshiring.webservices.RetroFitApis;
 import com.carshiring.webservices.RetrofitApiBuilder;
@@ -23,6 +25,7 @@ import com.google.gson.Gson;
 import com.mukesh.tinydb.TinyDB;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,13 +38,15 @@ public class CarDetailActivity extends AppCompatActivity {
     String type="0";
     String refer_type="16";
     String day="2";
-    String id_context="62194921151128510635730240";
+    String id_context="62213971154622138746527816";
     TabLayout tabLayout;
     Page_Adapter adapter;
     ActionBar actionBar;
     TinyDB sharpref;
     public static String token,logo,carPrice,carImage,modelname,currency;
     Gson gson = new Gson();
+    public static ArrayList<ExtraBean> extralist=new ArrayList<>();
+    public static List<CarDetailBean.FeatureBean> carSpecificationList=new ArrayList<>();
    /* public static SingleCarDetails singleCarDetails = new SingleCarDetails();
     public static List<CarSpecification> spec=new ArrayList<>();
     List<CarOtherApplication> otherspec=new ArrayList<>();
@@ -67,7 +72,9 @@ public class CarDetailActivity extends AppCompatActivity {
                 modelname=response.body().response.car_detail.model;
                 carPrice=response.body().response.car_detail.price;
                 currency=response.body().response.car_detail.currency;
-
+                extralist= (ArrayList<ExtraBean>) response.body().response.car_detail.extra;
+                carSpecificationList= Arrays.asList(response.body().response.car_detail.feature);
+                Log.d("respsonse",""+carSpecificationList.size());
                 handletablayout();
 
             }

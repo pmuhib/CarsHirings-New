@@ -1,9 +1,11 @@
 package com.carshiring.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,12 @@ import com.bumptech.glide.request.target.Target;
 import com.carshiring.R;
 
 import com.carshiring.activities.home.CarDetailActivity;
+import com.carshiring.activities.home.ExcessProtectionActivity;
+import com.carshiring.activities.home.Extras;
+import com.carshiring.models.CarDetailBean;
+import com.carshiring.utilities.Utility;
+
+import static com.carshiring.activities.home.CarDetailActivity.carSpecificationList;
 
 /**
  * Created by Muhib.
@@ -34,7 +42,7 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
   //  List<CarSpecification> carSpecificationList;
     ProgressBar bar,bar1;
     LinearLayout ll;
-    GridLayout gl;
+    LinearLayout gl;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,7 +65,7 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
         terms.setOnClickListener(this);
         quotes.setOnClickListener(this);
         ll= (LinearLayout) view.findViewById(R.id.ll_otherspec);
-        //gl= (GridLayout) view.findViewById(R.id.gr_Spec);
+        gl=  view.findViewById(R.id.gr_Spec);
         return view;
     }
 
@@ -92,68 +100,85 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                 return false;
             }
         }).into(imglogo);
-        carname.setText(CarDetailActivity.modelname);
+        carname.setText(CarDetailActivity.modelname+" "+"or Similar");
         carprice.setText(CarDetailActivity.currency+"  "+CarDetailActivity.carPrice);
-      /*  if(carSpecificationList!=null)
-        {
-            int total=carSpecificationList.size();
-            int col=2;
-            int row=total/col;
-            gl.setColumnCount(col);
-            gl.setRowCount(row+1);
-            for (int i=0,c=0,r=0;i<carSpecificationList.size();i++,c++)
-            {
-                CarSpecification carSpecification=carSpecificationList.get(i);
-                if(carSpecification.getSpecification_display().equals("4")) {
-                    TextView tt = new TextView(getContext());
-                    tt.setText(carSpecification.getSpecification_name());
-                    tt.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tick,0,0,0);
-                    tt.setCompoundDrawablePadding(5);
-                    tt.setGravity(Gravity.CENTER_VERTICAL);
-                    tt.setTextSize(14);
-                    ll.addView(tt);
-                }
-                if(carSpecification.getSpecification_display().equals("1") || carSpecification.getSpecification_display().equals("2"))
-                {
-                    if(c==col)
-                    {
-                        c=0;
-                        r++;
-                    }
-                    View viw= getActivity().getLayoutInflater().inflate(R.layout.gridcustomstyle,null);
-                    TextView tt= (TextView) viw.findViewById(R.id.txt_spec);
-                    ImageView iview= (ImageView) viw.findViewById(R.id.img_specif);
-                    //TextView tt=new TextView(getContext());
-                    iview.setImageResource(R.drawable.ic_air_condition);
-                    tt.setText(carSpecification.getSpecification_name());
-                     *//*    tt.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tick,0,0,0);
-                        tt.setCompoundDrawablePadding(5);tt.setGravity(Gravity.CENTER_VERTICAL);
-                        tt.setTextSize(14);
-                         GridLayout.LayoutParams params=new GridLayout.LayoutParams();
-                        params.height=GridLayout.LayoutParams.WRAP_CONTENT;
-                        params.width=GridLayout.LayoutParams.WRAP_CONTENT;
-                        params.leftMargin=5;
-                        params.topMargin=3;
-                        params.setGravity(Gravity.CENTER);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        params.columnSpec=GridLayout.spec(c,13f);
-                    }
-                    params.rowSpec=GridLayout.spec(r);
-                        tt.setLayoutParams(params);*//*
-                    gl.addView(viw);
-                }
+        LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        if(carSpecificationList!=null) {
+            for(int i=0;i<carSpecificationList.size();i++) {
+                CarDetailBean.FeatureBean carSpecification =carSpecificationList.get(i);
+                if (carSpecification.aircondition != null) {
+                    if (!carSpecification.aircondition.equalsIgnoreCase("false")) {
+                        View viw = getActivity().getLayoutInflater().inflate(R.layout.gridcustomstyle, null);
+                       // TextView tt = (TextView) viw.findViewById(R.id.txt_spec);
+                        TextView tt1 = new TextView(getContext());
+                        tt1.setLayoutParams(lparams);
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_air_condition,0,0,0);
+                        tt1.setCompoundDrawablePadding(5);
+                        tt1.setText("Air Condition");
+                        gl.addView(tt1);
+                        gl.setOrientation(LinearLayout.VERTICAL);
+                    }
+
+                    if(!carSpecification.transmission.equalsIgnoreCase("Automatic"))
+                    {
+
+                        TextView tt1 = new TextView(getContext());
+                        tt1.setLayoutParams(lparams);
+                        tt1.setText("Automatic");
+                        gl.addView(tt1);
+                        gl.setOrientation(LinearLayout.VERTICAL);
+                    }
+                    if(!carSpecification.fueltype.isEmpty())
+                    {
+
+                        TextView tt1 = new TextView(getContext());
+                        tt1.setLayoutParams(lparams);
+                        tt1.setText(carSpecification.getFueltype());
+                        gl.addView(tt1);
+                        gl.setOrientation(LinearLayout.VERTICAL);
+                    }
+                    if(!carSpecification.bag.isEmpty())
+                    {
+
+                        TextView tt1 = new TextView(getContext());
+                        tt1.setLayoutParams(lparams);
+                        tt1.setText(carSpecification.getBag()+" "+"Bags");
+                        gl.addView(tt1);
+                        gl.setOrientation(LinearLayout.VERTICAL);
+                    }
+                    if(!carSpecification.passenger.isEmpty())
+                    {
+
+                        TextView tt1 = new TextView(getContext());
+                        tt1.setLayoutParams(lparams);
+                        tt1.setText(carSpecification.getPassenger()+" "+"Passenger");
+                        gl.addView(tt1);
+                        gl.setOrientation(LinearLayout.VERTICAL);
+                    }
+                    if(!carSpecification.door.isEmpty())
+                    {
+
+                        TextView tt1 = new TextView(getContext());
+                        tt1.setLayoutParams(lparams);
+                        tt1.setText(carSpecification.getDoor()+" "+"Doors");
+                        gl.addView(tt1);
+                        gl.setOrientation(LinearLayout.VERTICAL);
+                    }
+
+                }
             }
         }
-*/    }
+   }
 
 
     @Override
     public void onClick(View v) {
-       // Intent it=new Intent(getActivity(), ExcessProtectionActivity.class);
+        Intent it=new Intent(getActivity(), ExcessProtectionActivity.class);
         switch (v.getId())
         {
-          /*  case R.id.ll_extra:
+            case R.id.ll_extra:
                 startActivity(new Intent(getActivity(),Extras.class));
                 break;
             case R.id.ll_protection:
@@ -161,12 +186,13 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                 startActivity(it);
                 break;
             case R.id.txt_terms:
-                startActivity(new Intent(getActivity(), TermsandCondition.class));
+                Utility.message(getContext(),"No browser Found");
+            //    startActivity(new Intent(getActivity(), TermsandCondition.class));
                 break;
             case R.id.txt_savequote:
                 it.putExtra("get","Forquotes");
                 startActivity(it);
-                break;*/
+                break;
         }
     }
 }
