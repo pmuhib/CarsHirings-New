@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.carshiring.R;
 
+import static com.carshiring.activities.home.CarDetailActivity.driver_maxage;
+import static com.carshiring.activities.home.CarDetailActivity.driver_minage;
 import static com.carshiring.activities.home.CarDetailActivity.termsurl;
 
 
@@ -21,13 +23,15 @@ import static com.carshiring.activities.home.CarDetailActivity.termsurl;
  */
 public class CarDetailTab3Fragment extends Fragment implements View.OnClickListener {
     View view;
-    TextView terms,quotes;
+    TextView terms,quotes,txt_driverage;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.cardetail_tab3,container,false);
         terms= (TextView) view.findViewById(R.id.txt_terms);
         quotes=(TextView) view.findViewById(R.id.txt_savequote);
+        txt_driverage=view.findViewById(R.id.txt_driverage);
+        txt_driverage.setText("Min Age: "+driver_minage+"\n"+"Max Age: "+driver_maxage);
         terms.setOnClickListener(this);
         quotes.setOnClickListener(this);
         return view;

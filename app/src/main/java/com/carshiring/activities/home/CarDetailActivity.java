@@ -17,6 +17,7 @@ import com.carshiring.fragments.CarDetailTab1Fragment;
 import com.carshiring.fragments.CarDetailTab2Fragment;
 import com.carshiring.fragments.CarDetailTab3Fragment;
 import com.carshiring.models.CarDetailBean;
+import com.carshiring.models.CoveragesBean;
 import com.carshiring.models.ExtraBean;
 import com.carshiring.utilities.Utility;
 import com.carshiring.webservices.ApiResponse;
@@ -35,33 +36,32 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class CarDetailActivity extends AppCompatActivity {
+    String token="fa6e9fcf829fbf3217d8e361421acf2c588903aa";
     String type="0";
     String refer_type="16";
     String day="2";
-    String id_context="62253803722523459366317554";
+    String id_context="6226214527347845493110416";
     TabLayout tabLayout;
     Page_Adapter adapter;
     ActionBar actionBar;
     TinyDB sharpref;
     TinyDB tinyDB ;
-    public static String token,logo,carPrice,carImage,modelname,currency,suppliername,suppliercity,termsurl;
+    public static String logo,carPrice,carImage,modelname,currency,suppliername,suppliercity,termsurl
+            ,fullprotectioncurrency,fullprotectionammount,driver_minage,driver_maxage;
     Gson gson = new Gson();
     public static ArrayList<ExtraBean> extralist=new ArrayList<>();
     public static List<CarDetailBean.FeatureBean> carSpecificationList=new ArrayList<>();
-   /* public static SingleCarDetails singleCarDetails = new SingleCarDetails();
-    public static List<CarSpecification> spec=new ArrayList<>();
-    List<CarOtherApplication> otherspec=new ArrayList<>();
-    public static List<Protection> protects=new ArrayList<>();*/
+    public static List<CoveragesBean> coveragelist=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
         tinyDB = new TinyDB(getApplicationContext());
-        token = tinyDB.getString("access_token");
+        /*token = tinyDB.getString("access_token");
         type = getIntent().getStringExtra("type");
         refer_type = getIntent().getStringExtra("refer_type");
         day = getIntent().getStringExtra("day");
-        id_context = getIntent().getStringExtra("id_context");
+        id_context = getIntent().getStringExtra("id_context");*/
 
 //        call api
 
@@ -75,8 +75,7 @@ public class CarDetailActivity extends AppCompatActivity {
         apiResponseCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-            /*    String availability=response.body().response.car_detail.category;
-                Log.d("respsonse",availability);*/
+
                if (response.body()!=null){
                    carImage=response.body().response.car_detail.image;
                    Log.d("respsonse",carImage);
@@ -90,6 +89,11 @@ public class CarDetailActivity extends AppCompatActivity {
                    suppliername=response.body().response.car_detail.supplier;
                    suppliercity=response.body().response.car_detail.supplier_city;
                    termsurl=response.body().response.car_detail.tc;
+                   fullprotectioncurrency=response.body().response.car_detail.fullprotection_currency;
+                   fullprotectionammount=response.body().response.car_detail.fullprotection_amount;
+                   coveragelist=response.body().response.car_detail.coverages;
+                   driver_minage=response.body().response.car_detail.driver_min_age;
+                   driver_maxage=response.body().response.car_detail.driver_max_age;
 
                    Log.d("respsonse",""+carSpecificationList.size());
                    handletablayout();

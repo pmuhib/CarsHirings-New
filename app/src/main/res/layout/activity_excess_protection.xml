@@ -30,16 +30,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/txtAccessProtection"
-                        android:textSize="16sp"
-                        android:textColor="@color/redStrong"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:drawablePadding="5dp"
 
-                        android:drawableLeft="@drawable/ic_protection"
                         android:padding="8dp"
                         />
                 </LinearLayout>
                 <TextView
+                    android:visibility="gone"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,10 +49,12 @@
                     android:padding="2dp"
                     />
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Light_grey"/>
                 <TextView
+                    android:visibility="gone"
                     android:gravity="center"
                        android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,66 +66,48 @@
                     android:layout_marginTop="5dp"
                     />
             </LinearLayout>
-            <include layout="@layout/accordian"/>
-           <!-- <ExpandableListView
-                android:layout_margin="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:minHeight="15dp"
-                android:id="@+id/list_extra"
-                android:groupIndicator="@null"
-                android:layout_marginBottom="5dp"
-                >
-            </ExpandableListView>-->
+            <include layout="@layout/accordian"
+                android:visibility="gone"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/simpleRectangle"
                 android:orientation="vertical"
                 android:layout_marginTop="8dp">
+
                 <TextView
                     android:id="@+id/txt_extra_pro"
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/txtAccessProtectionTerm"
-                    android:textSize="16sp"
-                    android:textColor="@color/redStrong"
-                    android:textStyle="bold"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:drawableRight="@drawable/ic_tick"
                     android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:padding="8dp"
-                    />
+                    android:text="@string/txtAccessProtectionTerm"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Light_grey"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+
 
                     <TextView
-                        android:id="@+id/txt"
+                        android:layout_gravity="center"
+                        android:id="@+id/txt_fullprotection"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:padding="8dp"
-
                         android:text="@string/dummy"
-                        android:textSize="15sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/txt1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/txt"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:text="INR 8380"
-                        android:textColor="@color/green"
-                        android:textSize="15sp" />
-                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

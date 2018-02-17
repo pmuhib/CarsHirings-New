@@ -83,7 +83,6 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                 bar.setVisibility(View.GONE);
                 return false;
             }
-
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                 bar.setVisibility(View.GONE);
@@ -191,7 +190,6 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
-
                 }
             }
         }

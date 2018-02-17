@@ -474,6 +474,7 @@
                 android:background="@color/Light_grey"
                 android:layout_marginTop="4dp"/>
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_savequote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
