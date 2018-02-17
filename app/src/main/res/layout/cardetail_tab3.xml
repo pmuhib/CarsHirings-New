@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Excess"
+        android:text="Collision Damage Waiver"
         android:gravity="center"
         android:textSize="19sp"
         android:textColor="@color/bottom_color"
@@ -27,6 +27,7 @@
     android:background="@color/Light_grey"
     android:layout_margin="10dp"/>
     <TextView
+        android:id="@+id/txt_cdw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="The Car has a damage excess of US$ 2,000 \n The has a thief access of US$ 2,000"
@@ -40,7 +41,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mileage / Kilometres"
+        android:text="Theft Protection"
         android:gravity="center"
         android:textSize="19sp"
         android:textColor="@color/bottom_color"
@@ -51,6 +52,7 @@
         android:background="@color/Light_grey"
         android:layout_margin="10dp"/>
     <TextView
+        android:id="@+id/txt_theftpro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="The Car has a damage excess of US$ 2,000 \n The has a thief access of US$ 2,000"

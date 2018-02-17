@@ -44,18 +44,19 @@ public class CarDetailActivity extends AppCompatActivity {
     String type="0";
     String refer_type="16";
     String day="2";
-    String id_context="6226214527347845493110416";
+    String id_context="6226549648764871585476470";
     TabLayout tabLayout;
     Page_Adapter adapter;
     ActionBar actionBar;
     TinyDB sharpref;
     TinyDB tinyDB ;
     public static String logo,carPrice,carImage,modelname,currency,suppliername,suppliercity,termsurl
-            ,fullprotectioncurrency,fullprotectionammount,driver_minage,driver_maxage;
+            ,fullprotectioncurrency,fullprotectionammount,driver_minage,driver_maxage,CDW,THP;
     Gson gson = new Gson();
     public static ArrayList<ExtraBean> extralist=new ArrayList<>();
     public static List<CarDetailBean.FeatureBean> carSpecificationList=new ArrayList<>();
     public static List<CoveragesBean> coveragelist=new ArrayList<>();
+    public static List<String> theft_protection=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +106,13 @@ public class CarDetailActivity extends AppCompatActivity {
                    coveragelist=response.body().response.car_detail.coverages;
                    driver_minage=response.body().response.car_detail.driver_min_age;
                    driver_maxage=response.body().response.car_detail.driver_max_age;
-
+                   theft_protection=response.body().response.car_detail.collision_damage_waiver;
+                   for (int i=0;i<1;i++) {
+                       CDW = response.body().response.car_detail.collision_damage_waiver.get(i);
+                   }
+                   for (int i=0;i<1;i++) {
+                       THP = response.body().response.car_detail.theft_protection.get(i);
+                   }
                    Log.d("respsonse",""+carSpecificationList.size());
                    handletablayout();
                }

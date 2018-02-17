@@ -188,6 +188,7 @@
         android:padding="2dp"
         android:layout_marginTop="12dp"/>
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/Light_grey"
