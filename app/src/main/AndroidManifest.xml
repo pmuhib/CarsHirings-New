@@ -49,6 +49,10 @@
         <activity android:name=".activities.home.CarsResultListActivity" />
         <activity android:name=".activities.home.LocationSelectionActivity" />
         <activity android:name=".activities.home.CarDetailActivity"></activity>
+        <activity android:name=".activities.home.ExcessProtectionActivity" />
+        <activity android:name=".activities.home.Extras" />
+
+
     </application>
 
 </manifest>
