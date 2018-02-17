@@ -70,9 +70,17 @@ public class CarsResultListActivity extends AppBaseActivity {
         listAdapter = new CarResultsListAdapter(this,listCarResult, new CarResultsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(SearchData carDetail) {
-//                Intent intent = new Intent(CarsResultListActivity.this,CarDetailActivity.class);
-////                intent.putExtra("car_id",carDetail.get);
-//                startActivity(intent);
+                Intent intent = new Intent(CarsResultListActivity.this,CarDetailActivity.class);
+                intent.putExtra("id_context",carDetail.getId_context());
+                /*  String access_token="c9296133ffd83e0ebba5ccd9d489e0ea898e6fe5";
+    String type="0";
+    String refer_type="16";
+    String day="2";
+    String id_context="62213971154622138746527816";*/
+                intent.putExtra("type",carDetail.getType());
+                intent.putExtra("day",carDetail.getTime());
+                intent.putExtra("refer_type",carDetail.getRefer_type());
+                startActivity(intent);
             }
         });
 

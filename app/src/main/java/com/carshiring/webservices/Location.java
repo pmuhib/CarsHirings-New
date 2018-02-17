@@ -17,12 +17,12 @@ public class Location implements Serializable{
      * type : a
      */
 
-    private String city_name;
-    private String city_id;
-    private String code;
-    private String iata;
-    private String country_code;
-    private String type;
+    public String city_name;
+    public String city_id;
+    public String code;
+    public String iata;
+    public String country_code;
+    public String type;
 
     public String getCity_name() {
         return city_name;

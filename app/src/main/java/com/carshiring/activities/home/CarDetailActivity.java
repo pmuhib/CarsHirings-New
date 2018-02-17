@@ -35,7 +35,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class CarDetailActivity extends AppCompatActivity {
-    String access_token="c9296133ffd83e0ebba5ccd9d489e0ea898e6fe5";
     String type="0";
     String refer_type="16";
     String day="2";
@@ -44,6 +43,7 @@ public class CarDetailActivity extends AppCompatActivity {
     Page_Adapter adapter;
     ActionBar actionBar;
     TinyDB sharpref;
+    TinyDB tinyDB ;
     public static String token,logo,carPrice,carImage,modelname,currency,suppliername,suppliercity,termsurl;
     Gson gson = new Gson();
     public static ArrayList<ExtraBean> extralist=new ArrayList<>();
@@ -56,32 +56,44 @@ public class CarDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
+        tinyDB = new TinyDB(getApplicationContext());
+        token = tinyDB.getString("access_token");
+        type = getIntent().getStringExtra("type");
+        refer_type = getIntent().getStringExtra("refer_type");
+        day = getIntent().getStringExtra("day");
+        id_context = getIntent().getStringExtra("id_context");
+
+//        call api
+
         setupApi();
     }
+
     private void setupApi() {
         Utility.showloadingPopup(this);
         RetroFitApis retroFitApis= RetrofitApiBuilder.getCarGatesapi();
-        Call<ApiResponse> apiResponseCall=retroFitApis.car_detail(access_token,id_context,type,day,refer_type);
+        Call<ApiResponse> apiResponseCall=retroFitApis.car_detail(token,id_context,type,day,refer_type);
         apiResponseCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
             /*    String availability=response.body().response.car_detail.category;
                 Log.d("respsonse",availability);*/
-                carImage=response.body().response.car_detail.image;
-                Log.d("respsonse",carImage);
-                logo=response.body().response.car_detail.supplier_logo;
-                Log.d("respsonse",logo);
-                modelname=response.body().response.car_detail.model;
-                carPrice=response.body().response.car_detail.price;
-                currency=response.body().response.car_detail.currency;
-                extralist= (ArrayList<ExtraBean>) response.body().response.car_detail.extra;
-                carSpecificationList= Arrays.asList(response.body().response.car_detail.feature);
-                suppliername=response.body().response.car_detail.supplier;
-                suppliercity=response.body().response.car_detail.supplier_city;
-                termsurl=response.body().response.car_detail.tc;
+               if (response.body()!=null){
+                   carImage=response.body().response.car_detail.image;
+                   Log.d("respsonse",carImage);
+                   logo=response.body().response.car_detail.supplier_logo;
+                   Log.d("respsonse",logo);
+                   modelname=response.body().response.car_detail.model;
+                   carPrice=response.body().response.car_detail.price;
+                   currency=response.body().response.car_detail.currency;
+                   extralist= (ArrayList<ExtraBean>) response.body().response.car_detail.extra;
+                   carSpecificationList= Arrays.asList(response.body().response.car_detail.feature);
+                   suppliername=response.body().response.car_detail.supplier;
+                   suppliercity=response.body().response.car_detail.supplier_city;
+                   termsurl=response.body().response.car_detail.tc;
 
-                Log.d("respsonse",""+carSpecificationList.size());
-                handletablayout();
+                   Log.d("respsonse",""+carSpecificationList.size());
+                   handletablayout();
+               }
 
             }
             @Override

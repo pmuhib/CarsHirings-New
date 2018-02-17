@@ -90,6 +90,6 @@ public class BaseFragment extends Fragment implements IFragment,IRefreshToken {
         TinyDB tinyDB = new TinyDB(getContext());
         String language_code = tinyDB.getString("language_code") ;
 //        Context contexta = LocaleHelper.setLocale(getActivity(), language_code);
-        setDefaultSettings();
+//        setDefaultSettings();
     }
 }
