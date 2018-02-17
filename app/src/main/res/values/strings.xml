@@ -24,6 +24,7 @@
     <string name="thankyou">Thank You</string>
 
     <string name="Welcome">Welcome! Please sign in...</string>
+    <string name="update_profile_txt">Welcome! Please update your profile...</string>
     <string name="enter_email">Enter your email</string>
     <string name="enter_password">Enter your Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -71,6 +72,9 @@
     <string name="aboutus">At Car Gates everything we do is about giving you the freedom to discover more. We’ll move mountains to find you the right rental car, and bring you a smooth, hassle-free experience from start to finish. Here you can find out more about how we work.</string>
     <string name="cardnumb">Card Number</string>
     <string name="car_results">Car List</string>
+    <string name="car_book">Book this car</string>
+    <string name="car_details">Car Details</string>
+
     <string name="cardname">Card Holder Name</string>
     <string name="date">MM/YY</string>
     <string name="Cv">CVV</string>

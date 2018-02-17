@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,7 +15,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/smalllogo"
+                android:src="@drawable/logo"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"/>
             <TextView
@@ -25,7 +26,7 @@
                 android:id="@+id/login_welcome"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:textColor="@color/redStrong"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"/>
             <TextView
                 android:layout_width="match_parent"
@@ -43,6 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:paddingStart="10dp"
                 android:padding="5dp"
+                android:textSize="@dimen/extra_small_size"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:imeOptions="actionNext"
@@ -70,6 +72,7 @@
                 android:paddingStart="10dp"
                 android:padding="5dp"
                 android:layout_marginLeft="15dp"
+                android:textSize="@dimen/extra_small_size"
                 android:layout_marginRight="15dp"
                 android:imeOptions="actionNext"
                 android:drawableLeft="@drawable/ic_password_icon"
@@ -93,7 +96,6 @@
                     android:text="@string/login"
                     android:textColor="@color/white"
                     style="@style/GreenButtonTheme"
-                    android:onClick="skipLogin"
                     android:id="@+id/bt_login"
                     android:layout_marginRight="3dp"
                     />

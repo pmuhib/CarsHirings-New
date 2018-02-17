@@ -1,13 +1,17 @@
 package com.carshiring.activities.home;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -56,6 +60,13 @@ public class CarDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
+        actionBar = getSupportActionBar() ;
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.back);
+        }
+
+
         tinyDB = new TinyDB(getApplicationContext());
         /*token = tinyDB.getString("access_token");
         type = getIntent().getStringExtra("type");
@@ -111,6 +122,20 @@ public class CarDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        actionBar.setTitle(getResources().getString(R.string.car_details));
+        setupToolbar();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void handletablayout() {
@@ -149,6 +174,20 @@ public class CarDetailActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar= (Toolbar) findViewById(R.id.bottomToolBar);
+        TextView textView= (TextView) toolbar.findViewById(R.id.txt_bot);
+        textView.setText("Book this Car");
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it=new Intent(CarDetailActivity.this, ExcessProtectionActivity.class);
+                it.putExtra("get","FromActi");
+                startActivity(it);
             }
         });
     }
