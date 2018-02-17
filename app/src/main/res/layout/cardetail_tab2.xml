@@ -40,9 +40,10 @@
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_brand_logo"
-                android:scaleType="fitXY"
+                android:id="@+id/img_supl"
                 />
             <TextView
+                android:id="@+id/txt_supdetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -168,16 +169,12 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/txt_suploc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="New Delhi DownTown" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Delhi  utttar pradesh"
-            android:gravity="center"/>
+
     </LinearLayout>
     <TextView
         android:id="@+id/txt_terms"

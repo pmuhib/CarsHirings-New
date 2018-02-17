@@ -18,6 +18,7 @@ import com.carshiring.fragments.CarDetailTab2Fragment;
 import com.carshiring.fragments.CarDetailTab3Fragment;
 import com.carshiring.models.CarDetailBean;
 import com.carshiring.models.ExtraBean;
+import com.carshiring.utilities.Utility;
 import com.carshiring.webservices.ApiResponse;
 import com.carshiring.webservices.RetroFitApis;
 import com.carshiring.webservices.RetrofitApiBuilder;
@@ -38,12 +39,12 @@ public class CarDetailActivity extends AppCompatActivity {
     String type="0";
     String refer_type="16";
     String day="2";
-    String id_context="62213971154622138746527816";
+    String id_context="62253803722523459366317554";
     TabLayout tabLayout;
     Page_Adapter adapter;
     ActionBar actionBar;
     TinyDB sharpref;
-    public static String token,logo,carPrice,carImage,modelname,currency;
+    public static String token,logo,carPrice,carImage,modelname,currency,suppliername,suppliercity,termsurl;
     Gson gson = new Gson();
     public static ArrayList<ExtraBean> extralist=new ArrayList<>();
     public static List<CarDetailBean.FeatureBean> carSpecificationList=new ArrayList<>();
@@ -58,6 +59,7 @@ public class CarDetailActivity extends AppCompatActivity {
         setupApi();
     }
     private void setupApi() {
+        Utility.showloadingPopup(this);
         RetroFitApis retroFitApis= RetrofitApiBuilder.getCarGatesapi();
         Call<ApiResponse> apiResponseCall=retroFitApis.car_detail(access_token,id_context,type,day,refer_type);
         apiResponseCall.enqueue(new Callback<ApiResponse>() {
@@ -74,6 +76,10 @@ public class CarDetailActivity extends AppCompatActivity {
                 currency=response.body().response.car_detail.currency;
                 extralist= (ArrayList<ExtraBean>) response.body().response.car_detail.extra;
                 carSpecificationList= Arrays.asList(response.body().response.car_detail.feature);
+                suppliername=response.body().response.car_detail.supplier;
+                suppliercity=response.body().response.car_detail.supplier_city;
+                termsurl=response.body().response.car_detail.tc;
+
                 Log.d("respsonse",""+carSpecificationList.size());
                 handletablayout();
 
@@ -81,6 +87,7 @@ public class CarDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                Utility.hidepopup();
             }
         });
     }
@@ -91,6 +98,7 @@ public class CarDetailActivity extends AppCompatActivity {
     }
 
     private void handletablayout() {
+        Utility.hidepopup();
         View view1=getLayoutInflater().inflate(R.layout.tabstyle,null);
         View view2=getLayoutInflater().inflate(R.layout.tabstyle,null);
         View view3=getLayoutInflater().inflate(R.layout.tabstyle,null);

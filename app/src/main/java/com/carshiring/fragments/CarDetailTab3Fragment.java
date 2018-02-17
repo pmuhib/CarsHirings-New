@@ -1,6 +1,7 @@
 package com.carshiring.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.carshiring.R;
+
+import static com.carshiring.activities.home.CarDetailActivity.termsurl;
 
 
 /**
@@ -34,9 +37,13 @@ public class CarDetailTab3Fragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Uri url=Uri.parse(termsurl);
+
         switch (v.getId())
         {
             case R.id.txt_terms:
+                Intent intent=new Intent(Intent.ACTION_VIEW,url);
+                startActivity(intent);
                // startActivity(new Intent(getContext(), TermsandCondition.class));;
                 break;
             case R.id.txt_savequote:

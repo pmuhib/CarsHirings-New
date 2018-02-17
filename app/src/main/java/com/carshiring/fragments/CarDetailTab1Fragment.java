@@ -1,7 +1,9 @@
 package com.carshiring.fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,7 @@ import com.carshiring.models.CarDetailBean;
 import com.carshiring.utilities.Utility;
 
 import static com.carshiring.activities.home.CarDetailActivity.carSpecificationList;
+import static com.carshiring.activities.home.CarDetailActivity.termsurl;
 
 /**
  * Created by Muhib.
@@ -114,19 +117,25 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                        // TextView tt = (TextView) viw.findViewById(R.id.txt_spec);
                         TextView tt1 = new TextView(getContext());
                         tt1.setLayoutParams(lparams);
-                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_air_condition,0,0,0);
-                        tt1.setCompoundDrawablePadding(5);
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ac,0,0,0);
+                        tt1.setCompoundDrawablePadding(25);
+                        tt1.setTextSize(16);
+                        tt1.setTypeface(Typeface.DEFAULT_BOLD);
                         tt1.setText("Air Condition");
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
 
-                    if(!carSpecification.transmission.equalsIgnoreCase("Automatic"))
+                    if(!carSpecification.transmission.isEmpty())
                     {
 
                         TextView tt1 = new TextView(getContext());
                         tt1.setLayoutParams(lparams);
-                        tt1.setText("Automatic");
+                        tt1.setText(carSpecification.getTransmission());
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.manual,0,0,0);
+                        tt1.setCompoundDrawablePadding(25);
+                        tt1.setTextSize(16);
+                        tt1.setTypeface(Typeface.DEFAULT_BOLD);
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
@@ -136,6 +145,10 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                         TextView tt1 = new TextView(getContext());
                         tt1.setLayoutParams(lparams);
                         tt1.setText(carSpecification.getFueltype());
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fuel,0,0,0);
+                        tt1.setCompoundDrawablePadding(25);
+                        tt1.setTextSize(16);
+                        tt1.setTypeface(Typeface.DEFAULT_BOLD);
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
@@ -145,6 +158,10 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                         TextView tt1 = new TextView(getContext());
                         tt1.setLayoutParams(lparams);
                         tt1.setText(carSpecification.getBag()+" "+"Bags");
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bag,0,0,0);
+                        tt1.setCompoundDrawablePadding(25);
+                        tt1.setTextSize(16);
+                        tt1.setTypeface(Typeface.DEFAULT_BOLD);
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
@@ -154,6 +171,10 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                         TextView tt1 = new TextView(getContext());
                         tt1.setLayoutParams(lparams);
                         tt1.setText(carSpecification.getPassenger()+" "+"Passenger");
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_walkway,0,0,0);
+                        tt1.setCompoundDrawablePadding(25);
+                        tt1.setTextSize(16);
+                        tt1.setTypeface(Typeface.DEFAULT_BOLD);
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
@@ -163,6 +184,10 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                         TextView tt1 = new TextView(getContext());
                         tt1.setLayoutParams(lparams);
                         tt1.setText(carSpecification.getDoor()+" "+"Doors");
+                        tt1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_car_door,0,0,0);
+                        tt1.setCompoundDrawablePadding(25);
+                        tt1.setTextSize(16);
+                        tt1.setTypeface(Typeface.DEFAULT_BOLD);
                         gl.addView(tt1);
                         gl.setOrientation(LinearLayout.VERTICAL);
                     }
@@ -175,6 +200,8 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Uri url=Uri.parse(termsurl);
+
         Intent it=new Intent(getActivity(), ExcessProtectionActivity.class);
         switch (v.getId())
         {
@@ -186,8 +213,9 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
                 startActivity(it);
                 break;
             case R.id.txt_terms:
-                Utility.message(getContext(),"No browser Found");
-            //    startActivity(new Intent(getActivity(), TermsandCondition.class));
+                Intent intent=new Intent(Intent.ACTION_VIEW,url);
+                startActivity(intent);
+                //    startActivity(new Intent(getActivity(), TermsandCondition.class));
                 break;
             case R.id.txt_savequote:
                 it.putExtra("get","Forquotes");
