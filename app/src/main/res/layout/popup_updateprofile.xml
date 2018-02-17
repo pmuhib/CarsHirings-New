@@ -2,6 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_profile_txt"
+        android:gravity="center"
+        android:id="@+id/login_welcome"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"/>
+
     <ScrollView
         android:layout_above="@+id/below"
         android:layout_width="match_parent"
@@ -14,6 +31,7 @@
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,7 +109,7 @@
             android:textSize="13sp"
             android:textColor="#000"/>
             <EditText
-                android:id="@+id/etUserAge"
+                android:id="@+id/etUserzip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/simpleRectangle"
@@ -194,8 +212,7 @@
                     android:text="@string/update"
                     android:textColor="@color/white"
                     style="@style/GreenButtonTheme"
-                    android:onClick="skipLogin"
-                    android:id="@+id/bt_login"
+                    android:id="@+id/bt_update"
                     android:layout_marginRight="3dp"
                     />
 

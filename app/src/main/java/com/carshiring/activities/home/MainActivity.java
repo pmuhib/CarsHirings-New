@@ -216,24 +216,26 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "About US Action", Toast.LENGTH_SHORT).show();
                 break;
 
-        /*    case R.id.action_contact_us:
+            /*case R.id.action_contact_us:
                 startActivity(new Intent(MainActivity.this, ContactUsActivity.class));
                 Toast.makeText(MainActivity.this, "Contact US Action", Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
             case R.id.action_language:
-//
-                startActivity(new Intent(MainActivity.this, Language.class));
+
+//                startActivity(new Intent(MainActivity.this, Language.class));
+                sherprf.remove("login_data");
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 Toast.makeText(MainActivity.this, "Language", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_currency:
+          /*  case R.id.action_currency:
                 startActivity(new Intent(MainActivity.this, CurrencyActivity.class));
                 Toast.makeText(MainActivity.this, "Currency Change", Toast.LENGTH_SHORT).show();
                 break;*/
 
-            case R.id.action_settings:
+           /* case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, ChangePasswordActivity.class));
                 Toast.makeText(MainActivity.this, "Settings Action", Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
         }
     }
 

@@ -137,7 +137,7 @@ public class LoginActivity extends AppBaseActivity implements View.OnClickListen
             if (user.isEmpty() && pass.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "Please Enter username and Password.", Toast.LENGTH_SHORT).show();
             } else {
-                if (user.isEmpty()) {
+                if (Utility.checkemail(user)) {
                     Toast.makeText(LoginActivity.this, "Please Enter Username", Toast.LENGTH_SHORT).show();
                 }
                 if (pass.isEmpty()) {
