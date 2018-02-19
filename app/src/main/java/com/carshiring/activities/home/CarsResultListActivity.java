@@ -61,6 +61,7 @@ public class CarsResultListActivity extends AppBaseActivity {
     TinyDB tinyDB;
     AppGlobal appGlobal=AppGlobal.getInstancess();
     Dialog dialog;
+    String fname,lname,email,phone,zip,license,licenseorigin,city,address,emaillogin,pass,set ="",userid="";
     RecyclerView recycler_search_cars;
     CatRequest cateRequest = new CatRequest();
 
@@ -98,6 +99,7 @@ public class CarsResultListActivity extends AppBaseActivity {
                 if (tinyDB.contains("login_data")){
                     String data = tinyDB.getString("login_data");
                     userDetails = gson.fromJson(data,UserDetails.class);
+                    userid = userDetails.getUser_id();
                     if (userDetails.getUser_name()==null || userDetails.getUser_name().length()==0){
                         set = "update_profile";
                         setupoverlay(set);
@@ -201,9 +203,6 @@ public class CarsResultListActivity extends AppBaseActivity {
         startActivityForResult(intent,201);
     }
 
-    String set ="";
-    String fname,lname,email,phone,zip,license,licenseorigin,city,address,emaillogin,pass;
-
     private void setupoverlay(String set) {
 
         final EditText edtFname, edtLname, edtemail,edtPhone,edtZip, edtLicense,edtLicenseOrign,edtCity, edtAddress;
@@ -233,7 +232,6 @@ public class CarsResultListActivity extends AppBaseActivity {
                 }
             });
 
-
         } else if (set.equals("update_profile")){
             dialog.setContentView(R.layout.popup_updateprofile);
             edtFname = dialog.findViewById(R.id.etUserFirstName);
@@ -259,12 +257,48 @@ public class CarsResultListActivity extends AppBaseActivity {
                     licenseorigin = edtLicenseOrign.getText().toString().trim();
                     city = edtCity.getText().toString().trim();
                     address = edtAddress.getText().toString().trim();
+                    if (!fname.isEmpty()){
+                        if (!lname.isEmpty()){
+                            if (Utility.checkemail(email)){
+                                if (Utility.checkphone(phone)){
+                                    if (!zip.isEmpty()){
+                                        if (!license.isEmpty()){
+                                            if (!licenseorigin.isEmpty()){
+                                                if (!city.isEmpty()){
+                                                    if (!address.isEmpty()){
+                                                        updateProfile(userid,fname);
+                                                    } else {
+                                                        Utility.message(getApplication(),"Please enter address");
+                                                    }
+                                                } else {
+                                                    Utility.message(getApplication(),"Please enter city");
+                                                }
+                                            } else {
+                                                Utility.message(getApplication(),"Please enter licenseorigin");
+                                            }
+                                        } else {
+                                            Utility.message(getApplication(),"Please enter license");
+                                        }
+                                    } else {
+                                        Utility.message(getApplication(),"Please enter zipcode");
+                                    }
+                                } else {
+                                    Utility.message(getApplication(),"Please enter valid phone number");
+                                }
+                            } else {
+                                Utility.message(getApplication(),"Please enter valid email");
+                            }
+                        } else {
+                            Utility.message(getApplication(),"Please enter last name");
+                        }
+                    } else {
+                        Utility.message(getApplication(),"Please enter First name");
+                    }
+
                     dialog.dismiss();
                 }
             });
         }
-
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
@@ -305,7 +339,41 @@ public class CarsResultListActivity extends AppBaseActivity {
         });
     }
 
+    private void updateProfile(String userid, String fname) {
+        if(!Utility.isNetworkConnected(getApplicationContext())){
+            Toast.makeText(CarsResultListActivity.this, "No Network Connection!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Utility.showloadingPopup(this);
+        RetroFitApis retroFitApis= RetrofitApiBuilder.getCargHiresapis();
+        Call<ApiResponse> responseCall=retroFitApis.updateprofile(userid,fname,lname,email,phone,zip,license,
+                licenseorigin,"dob",city,address);
+        responseCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Utility.hidepopup();
+                if(response.body().status==true)
+                {
+                    UserDetails userDetails = new UserDetails();
+                    userDetails = response.body().response.userdetail;
+                    String logindata=gson.toJson(userDetails);
+                    appGlobal.setLoginData(logindata);
+                    String st=  appGlobal.getUser_id();
+                    dialog.dismiss();
 
+                }
+                else{
+                    Utility.message(getApplicationContext(), response.body().msg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Utility.hidepopup();
+                Utility.message(getApplicationContext(),"Connection Error");
+            }
+        });
+    }
 
     public static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
     public void getCat(){
@@ -344,8 +412,6 @@ public class CarsResultListActivity extends AppBaseActivity {
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 Utility.hidepopup();
                 if (response!=null&&response.body().toString().length()>0){
-
-
                     if (request.body()!=null){
                         String msg = response.body().string();
                         category = gson.fromJson(msg,Category.class);

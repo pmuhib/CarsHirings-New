@@ -40,6 +40,21 @@ public interface RetroFitApis {
     @POST("login")
     Call<ApiResponse> login(@Field("username") String username,
                             @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("update_profile")
+    Call<ApiResponse> updateprofile(@Field("user_id") String user_id,
+                                    @Field("first_name") String first_name,
+                                    @Field("sur_name") String sur_name,
+                                    @Field("email") String email,
+                                    @Field("phone") String phone,
+                                    @Field("zipcode") String zipcode,
+                                    @Field("licenseno") String licenseno,
+                                    @Field("licenseorigin") String licenseorigin,
+                                    @Field("dob") String dob,
+                                    @Field("city") String city,
+                                    @Field("address") String address);
+
     @FormUrlEncoded
     @POST("point_cal")
     Call<ApiResponse> point(@Field(" ") String point);
