@@ -1,9 +1,7 @@
 package com.carshiring.activities.home;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,19 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carshiring.R;
-import com.carshiring.activities.mainsetup.LoginActivity;
 import com.carshiring.adapters.CarResultsListAdapter;
 import com.carshiring.fragments.SearchCarFragment;
 import com.carshiring.models.FilterDefaultMultipleListModel;
+import com.carshiring.models.CatRequest;
+import com.carshiring.models.Category;
 import com.carshiring.models.SearchData;
 import com.carshiring.models.UserDetails;
 import com.carshiring.utilities.AppBaseActivity;
@@ -35,13 +30,19 @@ import com.carshiring.webservices.RetrofitApiBuilder;
 import com.google.gson.Gson;
 import com.mukesh.tinydb.TinyDB;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,16 +51,21 @@ public class CarsResultListActivity extends AppBaseActivity {
     Gson gson = new Gson();
 
     public String filter ;
+    Category category = new Category();
+    public static List<Category.ResponseBean.CatBean>catBeanList = new ArrayList<>();
     List<SearchData> listCarResult =  new ArrayList<>();
     List<SearchData.FeatureBean> featuresAllList =  new ArrayList<>();
     public static List<String>supplierList=new ArrayList<>();
     List<String>featuresList=new ArrayList<>();
+    List<Integer>cateList=new ArrayList<>();
     CarResultsListAdapter listAdapter;
     UserDetails userDetails = new UserDetails();
     TinyDB tinyDB;
     AppGlobal appGlobal=AppGlobal.getInstancess();
     Dialog dialog;
+    String fname,lname,email,phone,zip,license,licenseorigin,city,address,emaillogin,pass,set ="",userid="";
     RecyclerView recycler_search_cars;
+    CatRequest cateRequest = new CatRequest();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +85,10 @@ public class CarsResultListActivity extends AppBaseActivity {
 
         for (SearchData searchData : listCarResult){
             supplierList.add(searchData.getSupplier());
+            cateList.add(Integer.parseInt(searchData.getCategory()));
         }
+
+        cateRequest.setCode(cateList);
         Set<String> hs = new HashSet<>();
         hs.addAll(supplierList);
         supplierList.clear();
@@ -110,6 +119,7 @@ public class CarsResultListActivity extends AppBaseActivity {
                 if (tinyDB.contains("login_data")){
                     String data = tinyDB.getString("login_data");
                     userDetails = gson.fromJson(data,UserDetails.class);
+                    userid = userDetails.getUser_id();
                     if (userDetails.getUser_name()==null || userDetails.getUser_name().length()==0){
                         set = "update_profile";
                         setupoverlay(set);
@@ -128,6 +138,19 @@ public class CarsResultListActivity extends AppBaseActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -148,6 +171,7 @@ public class CarsResultListActivity extends AppBaseActivity {
         }
         isApplyFiltered = false ;
         recycler_search_cars.setAdapter(listAdapter);
+        getCat();
     }
 
     public void openSelectionSortedBy(View view) {
@@ -301,8 +325,6 @@ public class CarsResultListActivity extends AppBaseActivity {
         Intent intent = new Intent(CarsResultListActivity.this,SelectFilterActivity.class);
         startActivityForResult(intent,201);
     }
-    String set ="";
-    String fname,lname,email,phone,zip,license,licenseorigin,city,address,emaillogin,pass;
 
     private void setupoverlay(String set) {
 
@@ -333,7 +355,6 @@ public class CarsResultListActivity extends AppBaseActivity {
                 }
             });
 
-
         } else if (set.equals("update_profile")){
             dialog.setContentView(R.layout.popup_updateprofile);
             edtFname = dialog.findViewById(R.id.etUserFirstName);
@@ -359,12 +380,48 @@ public class CarsResultListActivity extends AppBaseActivity {
                     licenseorigin = edtLicenseOrign.getText().toString().trim();
                     city = edtCity.getText().toString().trim();
                     address = edtAddress.getText().toString().trim();
+                    if (!fname.isEmpty()){
+                        if (!lname.isEmpty()){
+                            if (Utility.checkemail(email)){
+                                if (Utility.checkphone(phone)){
+                                    if (!zip.isEmpty()){
+                                        if (!license.isEmpty()){
+                                            if (!licenseorigin.isEmpty()){
+                                                if (!city.isEmpty()){
+                                                    if (!address.isEmpty()){
+                                                        updateProfile(userid,fname);
+                                                    } else {
+                                                        Utility.message(getApplication(),"Please enter address");
+                                                    }
+                                                } else {
+                                                    Utility.message(getApplication(),"Please enter city");
+                                                }
+                                            } else {
+                                                Utility.message(getApplication(),"Please enter licenseorigin");
+                                            }
+                                        } else {
+                                            Utility.message(getApplication(),"Please enter license");
+                                        }
+                                    } else {
+                                        Utility.message(getApplication(),"Please enter zipcode");
+                                    }
+                                } else {
+                                    Utility.message(getApplication(),"Please enter valid phone number");
+                                }
+                            } else {
+                                Utility.message(getApplication(),"Please enter valid email");
+                            }
+                        } else {
+                            Utility.message(getApplication(),"Please enter last name");
+                        }
+                    } else {
+                        Utility.message(getApplication(),"Please enter First name");
+                    }
+
                     dialog.dismiss();
                 }
             });
         }
-
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
@@ -402,6 +459,92 @@ public class CarsResultListActivity extends AppBaseActivity {
                 Utility.hidepopup();
                 Utility.message(getApplicationContext(),"Connection Error");
             }
+        });
+    }
+
+    private void updateProfile(String userid, String fname) {
+        if(!Utility.isNetworkConnected(getApplicationContext())){
+            Toast.makeText(CarsResultListActivity.this, "No Network Connection!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Utility.showloadingPopup(this);
+        RetroFitApis retroFitApis= RetrofitApiBuilder.getCargHiresapis();
+        Call<ApiResponse> responseCall=retroFitApis.updateprofile(userid,fname,lname,email,phone,zip,license,
+                licenseorigin,"dob",city,address);
+        responseCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Utility.hidepopup();
+                if(response.body().status==true)
+                {
+                    UserDetails userDetails = new UserDetails();
+                    userDetails = response.body().response.userdetail;
+                    String logindata=gson.toJson(userDetails);
+                    appGlobal.setLoginData(logindata);
+                    String st=  appGlobal.getUser_id();
+                    dialog.dismiss();
+
+                }
+                else{
+                    Utility.message(getApplicationContext(), response.body().msg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Utility.hidepopup();
+                Utility.message(getApplicationContext(),"Connection Error");
+            }
+        });
+    }
+
+    public static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
+    public void getCat(){
+        Utility.showloadingPopup(this);
+        String cat = gson.toJson(cateRequest);
+
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE,cat);
+
+        final Request request = new Request.Builder()
+                .url(RetrofitApiBuilder.CarHires_BASE_URL+"category_list")
+                .post(requestBody)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("cache-control", "no-cache")
+                .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10000, TimeUnit.SECONDS)
+                .writeTimeout(10000, TimeUnit.SECONDS)
+                .readTimeout(30000, TimeUnit.SECONDS)
+                .build();
+
+        Utility.showloadingPopup(this);
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String msg = e.getMessage();
+                        Utility.message(getApplicationContext(), "Connection error ");
+                        Utility.hidepopup();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                Utility.hidepopup();
+                if (response!=null&&response.body().toString().length()>0){
+                    if (request.body()!=null){
+                        String msg = response.body().string();
+                        category = gson.fromJson(msg,Category.class);
+                        catBeanList.addAll(category.getResponse().getCat());
+                    }
+                    Log.d("TAG", "onResponse: "+catBeanList.size());
+
+                }
+            }
+
         });
     }
 

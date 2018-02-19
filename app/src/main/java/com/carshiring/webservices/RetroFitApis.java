@@ -2,6 +2,8 @@ package com.carshiring.webservices;
 
 import com.carshiring.models.Category;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -38,9 +40,28 @@ public interface RetroFitApis {
     @POST("login")
     Call<ApiResponse> login(@Field("username") String username,
                             @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("update_profile")
+    Call<ApiResponse> updateprofile(@Field("user_id") String user_id,
+                                    @Field("first_name") String first_name,
+                                    @Field("sur_name") String sur_name,
+                                    @Field("email") String email,
+                                    @Field("phone") String phone,
+                                    @Field("zipcode") String zipcode,
+                                    @Field("licenseno") String licenseno,
+                                    @Field("licenseorigin") String licenseorigin,
+                                    @Field("dob") String dob,
+                                    @Field("city") String city,
+                                    @Field("address") String address);
+
+    @FormUrlEncoded
+    @POST("point_cal")
+    Call<ApiResponse> point(@Field(" ") String point);
+
     @FormUrlEncoded
     @POST("category_list")
-    Call<ApiResponse> category_list(@Body Category cat);
+    Call<ApiResponse> category_list(@Body List<String> cat);
 
     @FormUrlEncoded
     @POST("webservice/search")
@@ -76,4 +97,5 @@ public interface RetroFitApis {
     @POST("webservice/car_detail")
     Call<ApiResponse> car_detail(@Field("access_token") String access_token,@Field("id_context") String id_context, @Field("type") String type,@Field("day") String day,
     @Field("refer_type") String refer_type);
+
 }

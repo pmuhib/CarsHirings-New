@@ -1,5 +1,6 @@
 package com.carshiring.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,13 +13,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.carshiring.R;
 import com.carshiring.fragments.SearchCarFragment;
 import com.carshiring.models.SearchData;
+import com.carshiring.utilities.AppBaseActivity;
+import com.carshiring.utilities.Utility;
+import com.carshiring.webservices.ApiResponse;
+import com.carshiring.webservices.RetroFitApis;
+import com.carshiring.webservices.RetrofitApiBuilder;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.carshiring.splash.SplashActivity.TAG;
 
@@ -33,6 +46,8 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
     private final Context context;
     List<SearchData> list;
     ProgressBar bar1;
+    double pointpercent,calPrice;
+    int calPoint;
 
     public interface  OnItemClickListener {
         void onItemClick(SearchData carDetail);
@@ -62,7 +77,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
             holder.tvBagNo.setVisibility(View.GONE);
         }
         holder.tvBagNo.setText(model.getFeature().getBag() +" Large Bag");
-        holder.tvCarPricing.setText(model.getCurrency() +" "+model.getDeposit_price()+" /"+ model.getTime()
+        holder.tvCarPricing.setText(model.getCurrency() +" "+model.getPrice()+" /"+ model.getTime()
                 +" "+model.getTime_unit());
         holder.tvTodate.setText(SearchCarFragment.drop_date+"\n"+SearchCarFragment.dropTime);
         holder.tvFromDate.setText(SearchCarFragment.pick_date+"\n"+ SearchCarFragment.pickTime);
@@ -88,6 +103,13 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
                 .load(model.getImage())
                 .into(holder.imgCarResult);
         bar1.setVisibility(View.GONE);
+        double price = Double.parseDouble(model.getPrice());
+//        calculate point
+        pointpercent = Double.parseDouble(SearchCarFragment.pointper);
+        calPrice = (price*pointpercent)/100;
+        calPoint = (int) (calPrice/0.05);
+
+        holder.txtPoint.setText("Points Collected: "+String.valueOf(calPoint));
         holder.bindListener(model,listener);
     }
 
@@ -98,7 +120,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvCarModelName,tvCarPricing,tvPickDate,txtClass,txtSupplierNmae, tvBagNo,tvFromDate, tvTodate,
-                txtDropCity,txtDoor,txtTrans, txtTerms,txtFuel;
+                txtDropCity,txtDoor,txtTrans, txtTerms,txtFuel,txtPoint;
         LinearLayout spec1Container ;
         private View itemView  ;
         ImageView imgCarResult,imgCarAgencyLogo ;
@@ -120,7 +142,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
             txtTrans = itemView.findViewById(R.id.txttrans);
             txtTerms = itemView.findViewById(R.id.txtTermsCond);
             txtFuel = itemView.findViewById(R.id.txtFuel);
-
+            txtPoint = itemView.findViewById(R.id.txtpoint);
 
             spec1Container= (LinearLayout) itemView.findViewById(R.id.spec1Container) ;
             imgCarResult= (ImageView) itemView.findViewById(R.id.imgCarResult) ;
@@ -191,6 +213,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
 
 
     }
+
 
 
 

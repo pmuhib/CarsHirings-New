@@ -31,7 +31,9 @@ import com.carshiring.activities.home.CarsResultListActivity;
 import com.carshiring.activities.home.LocationSelectionActivity;
 import com.carshiring.activities.home.MainActivity;
 import com.carshiring.activities.home.SearchQuery;
+import com.carshiring.models.Point;
 import com.carshiring.models.SearchData;
+import com.carshiring.splash.SplashActivity;
 import com.carshiring.utilities.AppBaseActivity;
 import com.carshiring.utilities.Utility;
 import com.carshiring.webservices.ApiResponse;
@@ -77,7 +79,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
     Calendar calendar_pick, calendar_drop;
 
     public static String pickName ="",pickup_loc_id="",drop_loc_id="", dropName="",drop_date="",pick_date="",
-            drop_hour="",drop_minute="",pick_minute="",pick_hour="",pickTime="", dropTime="";
+            drop_hour="",drop_minute="",pick_minute="",pointper="",pick_hour="",pickTime="", dropTime="";
 
     int useCurrentLocation = 0;
     int useSameDestLocation = 1;
@@ -269,7 +271,7 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
                 tvJourneyDateDayNameWithMonthName.setText(dayMon);
                 pick_date = dateValueString;
                 calendar_drop  = (Calendar) calendar_pick.clone();
-                calendar_drop.add(Calendar.DATE,3);
+                calendar_drop.add(Calendar.DATE,2);
 
                 bindDateToGUI("returning", calendar_drop.get(Calendar.YEAR), calendar_drop.get(Calendar.MONTH), calendar_drop.get(Calendar.DAY_OF_MONTH));
                 break;
@@ -293,8 +295,6 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
-        calendar.add(Calendar.DATE,2);
-
         SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         result = monthFormat.format(calendar.getTime());
         return result;
@@ -413,8 +413,8 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
             intent.putExtra("car_list", (Serializable) car_list) ;
             startActivity(intent);*/
         } else {
-            intent = new Intent(getActivity(), CarsResultListActivity.class);
-            startActivity(intent);
+            getPoint();
+
         }
     }
     public static List<SearchData>searchData = new ArrayList<>();
@@ -481,6 +481,38 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Utility.hidepopup();
                 Toast.makeText(getActivity(), "Connection Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getPoint(){
+        RetroFitApis retroFitApis = RetrofitApiBuilder.getCargHiresapis() ;
+
+        Call<ApiResponse> responseCall = retroFitApis.point(" ") ;
+        final Gson gson = new Gson();
+        responseCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Utility.hidepopup();
+
+                if(response.body()!=null){
+                    Log.d(SplashActivity.TAG, "onResponse: point "+gson.toJson(response.body().response.point));
+                    Point point = new Point();
+
+                    if(response.body().status){
+                        point = response.body().response.point;
+                        pointper = point.getPoint_percentage();
+                        Intent intent = new Intent(getActivity(), CarsResultListActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Utility.hidepopup();
+                Toast.makeText(getContext(), "Connection Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -69,11 +69,11 @@ public class CarDetailActivity extends AppCompatActivity {
 
 
         tinyDB = new TinyDB(getApplicationContext());
-        /*token = tinyDB.getString("access_token");
+        token = tinyDB.getString("access_token");
         type = getIntent().getStringExtra("type");
         refer_type = getIntent().getStringExtra("refer_type");
         day = getIntent().getStringExtra("day");
-        id_context = getIntent().getStringExtra("id_context");*/
+        id_context = getIntent().getStringExtra("id_context");
 
 //        call api
 
