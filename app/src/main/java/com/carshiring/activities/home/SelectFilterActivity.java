@@ -1,5 +1,6 @@
 package com.carshiring.activities.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,9 @@ import retrofit2.Retrofit;
 
 public class SelectFilterActivity extends AppBaseActivity implements View.OnClickListener {
     RadioGroup CategoriesGroup;
+    public static String FILTER_RESPONSE = "filter_response";
+    public static int FILTER_RESPONSE_CODE = 220;
+    private static final String SEPARATOR = ",";
     private FilterValRecyclerAdapter filterValAdapterinsuran,filterValAdapterpack,filterValAdapterSupl,filterValAdapterpackFeature;
     Button reset,applyfilter;
     RecyclerView rec_supplier,recy_package,recy_carfeatures,recy_insurance;
@@ -51,9 +55,9 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
         rec_supplier=findViewById(R.id.rec_supplier);
         recy_package=findViewById(R.id.recy_package);
         recy_carfeatures=findViewById(R.id.recy_carfeatures);
-     //   ArrayList<String> getlist= (ArrayList<String>) CarsResultListActivity.supplierList;
+       ArrayList<String> getlist= (ArrayList<String>) CarsResultListActivity.supplierList;
         recy_insurance=findViewById(R.id.recy_insurance);
-      //  supplier .addAll(getlist);
+        supplier .addAll(getlist);
         features = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.filter_features)));
 
 
@@ -288,11 +292,77 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
                 }
                Utility.message(this,"Selected Packages are"+SelectedPackages.toString()+"\n"+"Selected Suppliers are"+SelectedSupplier.toString()+"\n"+"Selected Features are"+SelectedFeatures.toString()+"\n"+"Selected Insurances are"+SelectedInsurances.toString());
                FilterDefaultMultipleListModel listModel=new FilterDefaultMultipleListModel();
-               listModel.setSupplier(SelectedSupplier.toString());
-               listModel.setFeatures(SelectedFeatures.toString());
-               listModel.setPackages(SelectedPackages.toString());
-               listModel.setInsurances(SelectedInsurances.toString());
 
+               if (SelectedSupplier.size()>0) {
+                   StringBuilder stringBuilder = new StringBuilder();
+                   for (String se : SelectedSupplier) {
+                       stringBuilder.append(se);
+                       stringBuilder.append(SEPARATOR);
+                   }
+                   String sel = stringBuilder.toString();
+                   sel = sel.substring(0, sel.length() - SEPARATOR.length());
+                   listModel.setSupplier(sel.toString());
+               }
+               else
+               {
+                   listModel.setSupplier("");
+
+               }
+
+               if (SelectedFeatures.size()>0)
+               {
+                   StringBuilder stringBuilder2=new StringBuilder();
+                   for(String se:SelectedFeatures)
+                   {
+                       stringBuilder2.append(se);
+                       stringBuilder2.append(SEPARATOR);
+                   }
+                   String sel2=stringBuilder2.toString();
+                   sel2=sel2.substring(0,sel2.length()-SEPARATOR.length());
+                   listModel.setFeatures(sel2.toString());
+               }
+                else
+               {
+                   listModel.setFeatures("");
+               }
+                if(SelectedPackages.size()>0) {
+                    StringBuilder stringBuilder3 = new StringBuilder();
+                    for (String se : SelectedPackages) {
+                        stringBuilder3.append(se);
+                        stringBuilder3.append(SEPARATOR);
+                    }
+                    String sel3 = stringBuilder3.toString();
+                    sel3 = sel3.substring(0, sel3.length() - SEPARATOR.length());
+                    listModel.setPackages(sel3.toString());
+                }
+                else
+                {
+                    listModel.setPackages("");
+
+                }
+
+                if ((SelectedInsurances.size()>0))
+                {
+                    StringBuilder stringBuilder4=new StringBuilder();
+                    for(String se:SelectedInsurances)
+                    {
+                        stringBuilder4.append(se);
+                        stringBuilder4.append(SEPARATOR);
+                    }
+                    String sel4=stringBuilder4.toString();
+                    sel4=sel4.substring(0,sel4.length()-SEPARATOR.length());
+                    listModel.setInsurances(sel4.toString());
+                }
+                else
+                {
+                    listModel.setInsurances("");
+                }
+
+
+                Intent filrestintent=new Intent();
+                filrestintent.putExtra(FILTER_RESPONSE,listModel);
+                setResult(FILTER_RESPONSE_CODE,filrestintent);
+                finish();
                 break;
         }
 

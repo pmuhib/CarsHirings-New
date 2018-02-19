@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +23,7 @@ import com.carshiring.R;
 import com.carshiring.activities.mainsetup.LoginActivity;
 import com.carshiring.adapters.CarResultsListAdapter;
 import com.carshiring.fragments.SearchCarFragment;
+import com.carshiring.models.FilterDefaultMultipleListModel;
 import com.carshiring.models.SearchData;
 import com.carshiring.models.UserDetails;
 import com.carshiring.utilities.AppBaseActivity;
@@ -46,10 +48,11 @@ import retrofit2.Response;
 
 public class CarsResultListActivity extends AppBaseActivity {
     Gson gson = new Gson();
+
     public String filter ;
     List<SearchData> listCarResult =  new ArrayList<>();
     List<SearchData.FeatureBean> featuresAllList =  new ArrayList<>();
-    List<String>supplierList=new ArrayList<>();
+    public static List<String>supplierList=new ArrayList<>();
     List<String>featuresList=new ArrayList<>();
     CarResultsListAdapter listAdapter;
     UserDetails userDetails = new UserDetails();
@@ -83,6 +86,24 @@ public class CarsResultListActivity extends AppBaseActivity {
         supplierList.addAll(hs);
 
         recycler_search_cars = (RecyclerView) findViewById(R.id.recycler_search_cars);
+
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    public void listdispaly(List<SearchData> listCarResult )
+    {
         listAdapter = new CarResultsListAdapter(this,listCarResult, new CarResultsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(SearchData carDetail) {
@@ -106,22 +127,7 @@ public class CarsResultListActivity extends AppBaseActivity {
                 }
             }
         });
-
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -132,7 +138,15 @@ public class CarsResultListActivity extends AppBaseActivity {
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recycler_search_cars.addItemDecoration(itemDecoration);
-
+        if(isApplyFiltered)
+        {
+            listdispaly(filteredtList);
+        }
+        else
+        {
+            listdispaly(listCarResult);
+        }
+        isApplyFiltered = false ;
         recycler_search_cars.setAdapter(listAdapter);
     }
 
@@ -153,11 +167,107 @@ public class CarsResultListActivity extends AppBaseActivity {
             }
         }
         if(requestCode== 201){
-            if(resultCode== RESULT_OK)
+            if(resultCode== SelectFilterActivity.FILTER_RESPONSE_CODE)
             {
-
+                FilterDefaultMultipleListModel multipleListModel= (FilterDefaultMultipleListModel) data.getSerializableExtra(SelectFilterActivity.FILTER_RESPONSE);
+                String supl=multipleListModel.getSupplier();
+                String pack=multipleListModel.getPackages();
+                String feat=multipleListModel.getFeatures();
+                String insur=multipleListModel.getInsurances();
+                if(supl!=null || pack!=null || feat!=null || insur!=null)
+                {
+                    filterlist(supl,pack,feat,insur);
+                }
             }
         }
+    }
+    private boolean isApplyFiltered = false ;
+    private  ArrayList<SearchData>  filteredtList ;
+    private void filterlist(String supl, String pack, String feat, String insur) {
+        String[] suplier=supl.split(",");
+        String[] packages=pack.split(",");
+        String[] features=feat.split(",");
+        String[] insurance=insur.split(",");
+        filteredtList=new ArrayList<>();
+        int listsize=listCarResult.size();
+        for(int i=0;i<listsize;i++)
+        {
+            SearchData data = listCarResult.get(i);
+
+            boolean issuplierfound=false;
+            String supleir_strg=  data.getSupplier();
+            Log.d("Supplier",supleir_strg);
+            if(!supleir_strg.isEmpty())
+            {
+                for (String suply:suplier)
+                {
+                    if(!suply.isEmpty())
+                    {
+                        if(supleir_strg.equalsIgnoreCase(suply))
+                        {
+                            filteredtList.add(data);
+                            issuplierfound=true;
+                            Log.d("Filter","Supplier Matched");
+                            break;
+                        }
+                    }
+                }
+                if(issuplierfound)
+                {
+                    continue;
+                }
+            }
+            boolean ispackagefound=false;
+            String package_strg=data.getPackageX();
+            Log.d("Package",package_strg);
+            if(!package_strg.isEmpty())
+            {
+                for (String pac:packages)
+                {
+                    if(!pac.isEmpty())
+                    {
+                        if(package_strg.equalsIgnoreCase(pac))
+                        {
+                            filteredtList.add(data);
+                            ispackagefound=true;
+                            Log.d("Filter","Package Matched");
+                            break;
+                        }
+                    }
+                }
+                if(ispackagefound)
+                {
+                    continue;
+                }
+            }
+            boolean isfeaturefound=false;
+           String feature_Aircondition=data.getFeature().getTransmission();
+            Log.d("feature_Aircondition",feature_Aircondition);
+            if(!feature_Aircondition.isEmpty())
+            {
+               for (String Air:features)
+               {
+                   if (!Air.isEmpty())
+                   {
+                       if(feature_Aircondition.contains("Automatic"))
+                       {
+                           filteredtList.add(data);
+                           isfeaturefound=true;
+                           Log.d("Filter","Package Matched");
+                           break;
+                       }
+                   }
+               }
+               if (isfeaturefound)
+               {
+                   continue;
+               }
+            }
+
+
+        }
+        Log.d("Filtere list",""+ filteredtList.size());
+        isApplyFiltered=true;
     }
 
     private void getShortedData() {
@@ -213,7 +323,7 @@ public class CarsResultListActivity extends AppBaseActivity {
 
                     if (Utility.checkemail(emaillogin)){
                         if (!pass.isEmpty()){
-                            login(emaillogin,pass);
+                            //login(emaillogin,pass);
                         } else {
                             Utility.message(getApplicationContext(),"Please enter your password");
                         }

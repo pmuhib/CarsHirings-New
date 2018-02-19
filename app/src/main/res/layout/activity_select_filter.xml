@@ -45,7 +45,6 @@
 
                 <TextView
                     android:layout_margin="3dp"
-                    android:background="@drawable/draw_gray_shadow_bg"
                     android:padding="5dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -76,7 +75,6 @@
                 
                 <TextView
                     android:layout_margin="3dp"
-                    android:background="@drawable/draw_gray_shadow_bg"
                     android:padding="5dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -105,7 +103,6 @@
 
                 <TextView
                     android:layout_margin="3dp"
-                    android:background="@drawable/draw_gray_shadow_bg"
                     android:padding="5dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -128,7 +125,6 @@
                 </LinearLayout>
                 <TextView
                     android:layout_margin="3dp"
-                    android:background="@drawable/draw_gray_shadow_bg"
                     android:padding="5dp"
                     android:textSize="18sp"
                     android:textStyle="bold"

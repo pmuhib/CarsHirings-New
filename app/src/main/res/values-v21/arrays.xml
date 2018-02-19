@@ -16,7 +16,6 @@
         <item>Air Condition</item>
         <item>Automatic</item>
         <item>4+ Doors</item>
-        <item>Air Bags</item>
     </string-array>
 
     <string-array name="filter_package">

@@ -1,10 +1,12 @@
 package com.carshiring.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Muhib.
  * Contact Number : +91 9796173066
  */
-public class FilterDefaultMultipleListModel {
+public class FilterDefaultMultipleListModel  implements Serializable{
     public String Supplier,Features,Packages,Insurances;
     String name;
     boolean checked=false;
