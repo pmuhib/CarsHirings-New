@@ -212,8 +212,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.action_about_us:
-                startActivity(new Intent(MainActivity.this, CarDetailActivity.class));
-                Toast.makeText(MainActivity.this, "About US Action", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
                 break;
 
             /*case R.id.action_contact_us:

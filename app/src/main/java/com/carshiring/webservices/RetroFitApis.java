@@ -56,6 +56,9 @@ public interface RetroFitApis {
                                     @Field("address") String address);
 
     @FormUrlEncoded
+    @POST("about_us")
+    Call<ApiResponse> about_us(@Field("language") String language);
+    @FormUrlEncoded
     @POST("point_cal")
     Call<ApiResponse> point(@Field(" ") String point);
 
