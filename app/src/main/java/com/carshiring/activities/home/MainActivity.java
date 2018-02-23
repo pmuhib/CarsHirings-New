@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     TinyDB sherprf;
     DrawerLayout drawer;
     String userId,language_code;
+
     Dialog dialog;
     TextView txtemail, txtusername;
     UserDetails userDetails = new UserDetails();
