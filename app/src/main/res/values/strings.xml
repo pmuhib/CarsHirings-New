@@ -170,6 +170,7 @@
     <string name="txtDropUp">Drop off</string>
     <string name="update">Save</string>
     <string name="surname">Sur Name</string>
+    <string name="dateofbirth">Date of Birth</string>
 
     <!--activity settings-->
     <string name="txtSettings">Settings Car Search</string>

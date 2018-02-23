@@ -51,6 +51,23 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/dateofbirth"
+                android:textSize="13sp"
+                android:textColor="#000"/>
+            <EditText
+                android:id="@+id/etUserDob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/simpleRectangle"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" >
+            </EditText>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:textSize="13sp"
                 android:textColor="#000"/>

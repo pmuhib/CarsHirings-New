@@ -20,10 +20,13 @@ import android.widget.Toast;
 import com.carshiring.R;
 import com.carshiring.activities.mainsetup.ChangePasswordActivity;
 import com.carshiring.activities.mainsetup.LoginActivity;
+import com.carshiring.activities.mainsetup.MyAccountActivity;
 import com.carshiring.fragments.SearchCarFragment;
 import com.carshiring.interfaces.ISubViewSetupHandler;
+import com.carshiring.models.UserDetails;
 import com.carshiring.utilities.AppGlobal;
 import com.carshiring.utilities.Utility;
+import com.google.gson.Gson;
 import com.mukesh.tinydb.TinyDB;
 
 /**
@@ -38,29 +41,39 @@ public class MainActivity extends AppCompatActivity
     public SearchQuery searchQuery = new SearchQuery();
     View v;
     String qu;
-    TinyDB sherprf;
+    TinyDB tinyDB;
     DrawerLayout drawer;
     String userId,language_code;
     TextView txtemail, txtusername;
+    UserDetails userDetails = new UserDetails();
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        sherprf = new TinyDB(getApplicationContext());
-        language_code = sherprf.getString("language_id");
+     //   sherprf = new TinyDB(getApplicationContext());
+     //   language_code = sherprf.getString("language_id");
 //        updateResources(this,language_code);
         setContentView(R.layout.activity_home);
         appGlobal.context = getApplicationContext();
+        tinyDB = new TinyDB(getApplicationContext());
+        if(tinyDB.contains("login_data"))
+        {
+            String data = tinyDB.getString("login_data");
+            userDetails = gson.fromJson(data,UserDetails.class);
+            userId = userDetails.getUser_id();
 
-        userId = sherprf.getString("userid");
+        }
+
+      //  userId = sherprf.getString("userid");
         v = MainActivity.this.findViewById(android.R.id.content);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.title_home);
 
-        language_code = sherprf.getString("language_code") ;
+       // language_code = sherprf.getString("language_code") ;
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -180,6 +193,7 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.action_accounts:
                 if (checkLogin()) {
+                    startActivity(new Intent(MainActivity.this, MyAccountActivity.class));
                     /*MyAccountsFragment myaccountFragment = new MyAccountsFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.subview_container, myaccountFragment)
                             .addToBackStack("null").commit();
@@ -223,7 +237,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_language:
 
 //                startActivity(new Intent(MainActivity.this, Language.class));
-                sherprf.remove("login_data");
+                tinyDB.remove("login_data");
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 Toast.makeText(MainActivity.this, "Language", Toast.LENGTH_SHORT).show();
                 break;

@@ -63,7 +63,7 @@ public class CarsResultListActivity extends AppBaseActivity {
     TinyDB tinyDB;
     AppGlobal appGlobal=AppGlobal.getInstancess();
     Dialog dialog;
-    String fname,lname,email,phone,zip,license,licenseorigin,city,address,emaillogin,pass,set ="",userid="";
+    String fname,lname,email,phone,zip,license,licenseorigin,city,address,emaillogin,pass,set ="",userid="",dob;
     RecyclerView recycler_search_cars;
     CatRequest cateRequest = new CatRequest();
 
@@ -100,17 +100,6 @@ public class CarsResultListActivity extends AppBaseActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     public void listdispaly(List<SearchData> listCarResult )
     {
         listAdapter = new CarResultsListAdapter(this,listCarResult, new CarResultsListAdapter.OnItemClickListener() {
@@ -328,7 +317,7 @@ public class CarsResultListActivity extends AppBaseActivity {
 
     private void setupoverlay(String set) {
 
-        final EditText edtFname, edtLname, edtemail,edtPhone,edtZip, edtLicense,edtLicenseOrign,edtCity, edtAddress;
+        final EditText edtFname, edtLname, edtemail,edtPhone,edtZip, edtLicense,edtLicenseOrign,edtCity, edtAddress,etdob;
         Button btupdate;
 //        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (set.equals("login")){
@@ -345,7 +334,7 @@ public class CarsResultListActivity extends AppBaseActivity {
 
                     if (Utility.checkemail(emaillogin)){
                         if (!pass.isEmpty()){
-                            //login(emaillogin,pass);
+                            login(emaillogin,pass);
                         } else {
                             Utility.message(getApplicationContext(),"Please enter your password");
                         }
@@ -359,6 +348,7 @@ public class CarsResultListActivity extends AppBaseActivity {
             dialog.setContentView(R.layout.popup_updateprofile);
             edtFname = dialog.findViewById(R.id.etUserFirstName);
             edtLname = dialog.findViewById(R.id.etUserLastName);
+            etdob= dialog.findViewById(R.id.etUserDob);
             edtemail = dialog.findViewById(R.id.etUserEmail);
             edtPhone = dialog.findViewById(R.id.etUserPhoneNo);
             edtZip = dialog.findViewById(R.id.etUserzip);
@@ -373,6 +363,7 @@ public class CarsResultListActivity extends AppBaseActivity {
                 public void onClick(View view) {
                     fname = edtFname.getText().toString().trim();
                     lname = edtLname.getText().toString().trim();
+                    dob=etdob.getText().toString().trim();
                     email = edtemail.getText().toString().trim();
                     phone = edtPhone.getText().toString().trim();
                     zip = edtZip.getText().toString().trim();
@@ -382,34 +373,39 @@ public class CarsResultListActivity extends AppBaseActivity {
                     address = edtAddress.getText().toString().trim();
                     if (!fname.isEmpty()){
                         if (!lname.isEmpty()){
-                            if (Utility.checkemail(email)){
-                                if (Utility.checkphone(phone)){
-                                    if (!zip.isEmpty()){
-                                        if (!license.isEmpty()){
-                                            if (!licenseorigin.isEmpty()){
-                                                if (!city.isEmpty()){
-                                                    if (!address.isEmpty()){
-                                                        updateProfile(userid,fname);
+                            if(!dob.isEmpty()) {
+                                if (Utility.checkemail(email)) {
+                                    if (Utility.checkphone(phone)) {
+                                        if (!zip.isEmpty()) {
+                                            if (!license.isEmpty()) {
+                                                if (!licenseorigin.isEmpty()) {
+                                                    if (!city.isEmpty()) {
+                                                        if (!address.isEmpty()) {
+                                                            updateProfile(userid, fname);
+                                                        } else {
+                                                            Utility.message(getApplication(), "Please enter address");
+                                                        }
                                                     } else {
-                                                        Utility.message(getApplication(),"Please enter address");
+                                                        Utility.message(getApplication(), "Please enter city");
                                                     }
                                                 } else {
-                                                    Utility.message(getApplication(),"Please enter city");
+                                                    Utility.message(getApplication(), "Please enter licenseorigin");
                                                 }
                                             } else {
-                                                Utility.message(getApplication(),"Please enter licenseorigin");
+                                                Utility.message(getApplication(), "Please enter license");
                                             }
                                         } else {
-                                            Utility.message(getApplication(),"Please enter license");
+                                            Utility.message(getApplication(), "Please enter zipcode");
                                         }
                                     } else {
-                                        Utility.message(getApplication(),"Please enter zipcode");
+                                        Utility.message(getApplication(), "Please enter valid phone number");
                                     }
                                 } else {
-                                    Utility.message(getApplication(),"Please enter valid phone number");
+                                    Utility.message(getApplication(), "Please enter valid email");
                                 }
-                            } else {
-                                Utility.message(getApplication(),"Please enter valid email");
+                            }
+                            else {
+                                Utility.message(getApplication(),"Please enter Date of Birth");
                             }
                         } else {
                             Utility.message(getApplication(),"Please enter last name");
@@ -422,8 +418,8 @@ public class CarsResultListActivity extends AppBaseActivity {
                 }
             });
         }
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
         dialog.show();
     }
 
@@ -470,7 +466,7 @@ public class CarsResultListActivity extends AppBaseActivity {
         Utility.showloadingPopup(this);
         RetroFitApis retroFitApis= RetrofitApiBuilder.getCargHiresapis();
         Call<ApiResponse> responseCall=retroFitApis.updateprofile(userid,fname,lname,email,phone,zip,license,
-                licenseorigin,"dob",city,address);
+                licenseorigin,dob,city,address);
         responseCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
