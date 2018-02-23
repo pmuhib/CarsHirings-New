@@ -27,6 +27,7 @@ import com.carshiring.R;
 import com.carshiring.activities.home.CarDetailActivity;
 import com.carshiring.activities.home.ExcessProtectionActivity;
 import com.carshiring.activities.home.Extras;
+import com.carshiring.adapters.CarResultsListAdapter;
 import com.carshiring.models.CarDetailBean;
 import com.carshiring.utilities.Utility;
 
@@ -40,7 +41,7 @@ import static com.carshiring.activities.home.CarDetailActivity.termsurl;
 public class CarDetailTab1Fragment extends Fragment implements View.OnClickListener {
     View view;
     LinearLayout ll_extra,ll_protection;
-    TextView terms,quotes,carname,carprice;
+    TextView terms,quotes,carname,carprice, txtPoint;
     ImageView carImg,imglogo;
   //  List<CarSpecification> carSpecificationList;
     ProgressBar bar,bar1;
@@ -60,6 +61,7 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
         imglogo= (ImageView) view.findViewById(R.id.img_carlogo);
         bar= (ProgressBar) view.findViewById(R.id.progressbar);
         bar1= (ProgressBar) view.findViewById(R.id.progressbar1);
+        txtPoint = view.findViewById(R.id.point_get);
        /* SingleCarDetails singleCarDetails = new SingleCarDetails();
         singleCarDetails = CarDetail.singleCarDetails;
         carSpecificationList=CarDetail.spec;*/
@@ -103,6 +105,7 @@ public class CarDetailTab1Fragment extends Fragment implements View.OnClickListe
             }
         }).into(imglogo);
         carname.setText(CarDetailActivity.modelname+" "+"or Similar");
+        txtPoint.setText("Collected point: "+CarResultsListAdapter.calPoint);
         carprice.setText(CarDetailActivity.currency+"  "+CarDetailActivity.carPrice);
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);

@@ -23,6 +23,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.carshiring.R;
+import com.carshiring.adapters.CarResultsListAdapter;
 import com.carshiring.models.ExtraAdded;
 import com.carshiring.utilities.AppBaseActivity;
 import com.google.gson.Gson;
@@ -37,7 +38,7 @@ import static com.carshiring.activities.home.CarDetailActivity.fullprotectioncur
 import static com.carshiring.activities.home.CarDetailActivity.termsurl;
 
 public class BookCarActivity extends AppBaseActivity implements View.OnClickListener{
-    TextView terms,quotes,carname,carprice,txtAddExtra, txtFull, txtFullValue;
+    TextView terms,quotes,carname,carprice,txtAddExtra, txtFull,txtPoint, txtFullValue;
     ImageView carImg,imglogo;
     LinearLayout extraView,addExtra;
     //  List<CarSpecification> carSpecificationList;
@@ -66,6 +67,8 @@ public class BookCarActivity extends AppBaseActivity implements View.OnClickList
 
 
         terms= (TextView)findViewById(R.id.txt_terms);
+        txtPoint = findViewById(R.id.txtpoint_cal);
+
         quotes=(TextView) findViewById(R.id.txt_savequote);
         carname= (TextView)findViewById(R.id.txt_modelname);
         carprice= (TextView) findViewById(R.id.txt_carPrice);
@@ -84,6 +87,7 @@ public class BookCarActivity extends AppBaseActivity implements View.OnClickList
             txtFullValue.setText("Full Protection Only "+full+" For Day");
 
         }
+        txtPoint.setText("Collected point: "+ CarResultsListAdapter.calPoint);
         terms.setOnClickListener(this);
         quotes.setOnClickListener(this);
 

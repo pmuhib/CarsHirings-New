@@ -78,6 +78,7 @@
                         android:layout_height="30dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
+                        android:id="@+id/point_get"
                         android:textColor="@color/black"
                         android:layout_gravity="bottom|start"
                         android:gravity="bottom"
