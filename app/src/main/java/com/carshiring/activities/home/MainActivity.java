@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         appGlobal.context = getApplicationContext();
         tinyDB = new TinyDB(getApplicationContext());
+        sherprf = new TinyDB(getApplicationContext());
         if(tinyDB.contains("login_data"))
         {
             String data = tinyDB.getString("login_data");
