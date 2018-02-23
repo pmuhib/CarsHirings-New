@@ -48,7 +48,6 @@ public class CarDetailActivity extends AppCompatActivity {
     TabLayout tabLayout;
     Page_Adapter adapter;
     ActionBar actionBar;
-    TinyDB sharpref;
     TinyDB tinyDB ;
     public static String logo,carPrice,carImage,modelname,currency,suppliername,suppliercity,termsurl
             ,fullprotectioncurrency,fullprotectionammount,driver_minage,driver_maxage,CDW,THP;
@@ -192,7 +191,7 @@ public class CarDetailActivity extends AppCompatActivity {
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it=new Intent(CarDetailActivity.this, ExcessProtectionActivity.class);
+                Intent it=new Intent(CarDetailActivity.this, BookCarActivity.class);
                 it.putExtra("get","FromActi");
                 startActivity(it);
             }

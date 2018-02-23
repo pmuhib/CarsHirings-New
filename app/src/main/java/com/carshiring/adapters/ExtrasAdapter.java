@@ -2,22 +2,28 @@ package com.carshiring.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carshiring.R;
+import com.carshiring.models.ExtraAdded;
 import com.carshiring.models.ExtraBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Muhib.
  * Contact Number : +91 9796173066
  */
 public class ExtrasAdapter extends RecyclerView.Adapter<ExtrasAdapter.ViewHolder> {
+   public List<ExtraAdded> extraData = new ArrayList<>();
 
     Context context;
     ArrayList<ExtraBean> beanArrayList=new ArrayList<>();
@@ -34,10 +40,30 @@ public class ExtrasAdapter extends RecyclerView.Adapter<ExtrasAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
        holder.txt_extrasname.setText(beanArrayList.get(position).getName());
        holder.txt_price.setText(beanArrayList.get(position).getCurrency()+" "+beanArrayList.get(position).getPrice());
+      holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+              if (i>0){
+                  ExtraAdded extraAdded = new ExtraAdded();
+                  extraAdded.setName(holder.txt_extrasname.getText().toString().trim());
+                  extraAdded.setPrice(beanArrayList.get(position).getPrice());
+                  extraAdded.setCurrency(beanArrayList.get(position).getCurrency());
+                  extraAdded.setNumber((String) holder.spinner.getItemAtPosition(i));
+                  extraData.add(extraAdded);
+                  Log.d("TAG", "onItemSelected: "+holder.spinner.getItemAtPosition(i)+"\n"+ holder.txt_extrasname.getText().toString()+
+                          "\n"+holder.txt_price.getText().toString()+"\n"+extraData.size());
+              }
 
+          }
+
+          @Override
+          public void onNothingSelected(AdapterView<?> adapterView) {
+
+          }
+      });
 
     }
 
@@ -55,5 +81,8 @@ public class ExtrasAdapter extends RecyclerView.Adapter<ExtrasAdapter.ViewHolder
             txt_price=itemView.findViewById(R.id.txt_price);
             spinner=itemView.findViewById(R.id.spinner2);
         }
+    }
+    public List<ExtraAdded> getExtra(){
+        return extraData;
     }
 }

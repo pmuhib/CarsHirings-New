@@ -60,7 +60,6 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
         supplier .addAll(getlist);
         features = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.filter_features)));
 
-
         packages = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.filter_package)));
         insurance = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.filter_insurance)));
 
@@ -80,7 +79,6 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
             featuresMultipleListModels.add(modelfeat);
         }
 
-
         for(String pac:packages)
         {
             modelpack = new FilterDefaultMultipleListModel();
@@ -94,8 +92,6 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
             modelinsu.setName(ins);
             insuranceMultipleListModels.add(modelinsu);
         }
-
-
 
         filterValAdapterSupl=new FilterValRecyclerAdapter(this,R.layout.filter_list_val_item_layout,supplierMultipleListModels);
         rec_supplier.setAdapter(filterValAdapterSupl);
@@ -161,7 +157,6 @@ public class SelectFilterActivity extends AppBaseActivity implements View.OnClic
             categories.add("33");
             String cat=categories.toString();
             RetroFitApis retroFitApis=RetrofitApiBuilder.getCargHiresapis();
-
 
         }
         else

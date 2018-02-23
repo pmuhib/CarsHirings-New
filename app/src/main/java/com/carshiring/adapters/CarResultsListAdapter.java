@@ -47,7 +47,7 @@ public class CarResultsListAdapter extends RecyclerView.Adapter<CarResultsListAd
     List<SearchData> list;
     ProgressBar bar1;
     double pointpercent,calPrice;
-    int calPoint;
+    public static int calPoint;
 
     public interface  OnItemClickListener {
         void onItemClick(SearchData carDetail);

@@ -357,6 +357,8 @@ public class CarsResultListActivity extends AppBaseActivity {
             edtCity = dialog.findViewById(R.id.etcity);
             edtAddress = dialog.findViewById(R.id.etAddress);
             btupdate = dialog.findViewById(R.id.bt_update);
+            edtemail.setText(userDetails.getUser_email());
+            edtemail.setEnabled(false);
 //            set onclick on update
             btupdate.setOnClickListener(new View.OnClickListener() {
                 @Override

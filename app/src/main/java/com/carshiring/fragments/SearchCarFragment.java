@@ -480,6 +480,8 @@ public class SearchCarFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Utility.hidepopup();
+                Log.d(TAG, "onFailure: "+t.getMessage());
+
                 Toast.makeText(getActivity(), "Connection Error", Toast.LENGTH_SHORT).show();
             }
         });

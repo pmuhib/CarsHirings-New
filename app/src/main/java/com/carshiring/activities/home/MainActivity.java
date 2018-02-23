@@ -1,5 +1,6 @@
 package com.carshiring.activities.home;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +12,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +31,15 @@ import com.carshiring.models.UserDetails;
 import com.carshiring.utilities.AppGlobal;
 import com.carshiring.utilities.Utility;
 import com.google.gson.Gson;
+import com.carshiring.webservices.ApiResponse;
+import com.carshiring.webservices.RetroFitApis;
+import com.carshiring.webservices.RetrofitApiBuilder;
+import com.google.gson.Gson;
 import com.mukesh.tinydb.TinyDB;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created byRakhi on 9/2/2018.
@@ -40,10 +52,12 @@ public class MainActivity extends AppCompatActivity
     public Toolbar toolbar;
     public SearchQuery searchQuery = new SearchQuery();
     View v;
-    String qu;
     TinyDB tinyDB;
+    String qu,set,fname,lname,email,phone,zip,license,licenseorigin,city,address;
+    TinyDB sherprf;
     DrawerLayout drawer;
     String userId,language_code;
+    Dialog dialog;
     TextView txtemail, txtusername;
     UserDetails userDetails = new UserDetails();
     Gson gson = new Gson();
@@ -69,6 +83,7 @@ public class MainActivity extends AppCompatActivity
       //  userId = sherprf.getString("userid");
         v = MainActivity.this.findViewById(android.R.id.content);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        dialog=new Dialog(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.title_home);
@@ -101,6 +116,17 @@ public class MainActivity extends AppCompatActivity
         SearchCarFragment searchCarFragment = new SearchCarFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.subview_container, searchCarFragment)
                .commit();
+
+        if (sherprf.contains("login_data")){
+            String data = sherprf.getString("login_data");
+            userDetails = gson.fromJson(data,UserDetails.class);
+            userId = userDetails.getUser_id();
+            if (userDetails.getUser_name()==null || userDetails.getUser_name().length()==0){
+                set = "update_profile";
+                setupoverlay(set);
+            }
+        }
+
     }
 
     @Override
@@ -226,8 +252,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.action_about_us:
-                startActivity(new Intent(MainActivity.this, CarDetailActivity.class));
-                Toast.makeText(MainActivity.this, "About US Action", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
                 break;
 
             /*case R.id.action_contact_us:
@@ -264,6 +289,132 @@ public class MainActivity extends AppCompatActivity
             return false;
         }
     }
+    Button btupdate,btnCancel;
+
+    private void setupoverlay(String set) {
+
+        final EditText edtFname, edtLname, edtemail,edtPhone,edtZip, edtLicense,edtLicenseOrign,edtCity, edtAddress;
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (set.equals("update_profile")){
+            dialog.setContentView(R.layout.popup_updateprofile);
+            edtFname = dialog.findViewById(R.id.etUserFirstName);
+            edtLname = dialog.findViewById(R.id.etUserLastName);
+            edtemail = dialog.findViewById(R.id.etUserEmail);
+            edtemail.setText(userDetails.getUser_email());
+            edtemail.setEnabled(false);
+            edtPhone = dialog.findViewById(R.id.etUserPhoneNo);
+            edtZip = dialog.findViewById(R.id.etUserzip);
+            edtLicense = dialog.findViewById(R.id.etlicense);
+            edtLicenseOrign = dialog.findViewById(R.id.etlicenseorigion);
+            edtCity = dialog.findViewById(R.id.etcity);
+            edtAddress = dialog.findViewById(R.id.etAddress);
+            btupdate = dialog.findViewById(R.id.bt_update);
+            btnCancel = dialog.findViewById(R.id.bt_cancel);
+//            set onclick on update
+            btupdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fname = edtFname.getText().toString().trim();
+                    lname = edtLname.getText().toString().trim();
+                    email = edtemail.getText().toString().trim();
+                    phone = edtPhone.getText().toString().trim();
+                    zip = edtZip.getText().toString().trim();
+                    license = edtLicense.getText().toString().trim();
+                    licenseorigin = edtLicenseOrign.getText().toString().trim();
+                    city = edtCity.getText().toString().trim();
+                    address = edtAddress.getText().toString().trim();
+                    if (!fname.isEmpty()){
+                        if (!lname.isEmpty()){
+                            if (Utility.checkemail(email)){
+                                if (Utility.checkphone(phone)){
+                                    if (!zip.isEmpty()){
+                                        if (!license.isEmpty()){
+                                            if (!licenseorigin.isEmpty()){
+                                                if (!city.isEmpty()){
+                                                    if (!address.isEmpty()){
+                                                        updateProfile(userId,fname);
+                                                    } else {
+                                                        Utility.message(getApplication(),"Please enter address");
+                                                    }
+                                                } else {
+                                                    Utility.message(getApplication(),"Please enter city");
+                                                }
+                                            } else {
+                                                Utility.message(getApplication(),"Please enter licenseorigin");
+                                            }
+                                        } else {
+                                            Utility.message(getApplication(),"Please enter license");
+                                        }
+                                    } else {
+                                        Utility.message(getApplication(),"Please enter zipcode");
+                                    }
+                                } else {
+                                    Utility.message(getApplication(),"Please enter valid phone number");
+                                }
+                            } else {
+                                Utility.message(getApplication(),"Please enter valid email");
+                            }
+                        } else {
+                            Utility.message(getApplication(),"Please enter last name");
+                        }
+                    } else {
+                        Utility.message(getApplication(),"Please enter First name");
+                    }
+
+                }
+            });
+        }
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+
+    private void updateProfile(String userid, String fname) {
+        if(!Utility.isNetworkConnected(getApplicationContext())){
+            Toast.makeText(MainActivity.this, "No Network Connection!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Utility.showloadingPopup(this);
+        RetroFitApis retroFitApis= RetrofitApiBuilder.getCargHiresapis();
+        Call<ApiResponse> responseCall=retroFitApis.updateprofile(userid,fname,lname,email,phone,zip,license,
+                licenseorigin,"dob",city,address);
+        responseCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Utility.hidepopup();
+                if(response.body().status==true)
+                {
+                    Log.d("TAG", "onResponse: "+response.body().msg);
+                    Utility.message(getApplicationContext(), response.body().msg);
+//                    String logindata=gson.toJson(response.body().response.userdetail);
+                    userDetails = response.body().response.userdetail;
+                    String logindata=gson.toJson(userDetails);
+                    appGlobal.setLoginData(logindata);
+                    String st=  appGlobal.getUser_id();
+                    dialog.dismiss();
+                    dialog.dismiss();
+
+                }
+                else{
+                    Utility.message(getApplicationContext(), response.body().msg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Utility.hidepopup();
+                Utility.message(getApplicationContext(),"Connection Error");
+            }
+        });
+    }
 
 
     @Override
@@ -285,8 +436,6 @@ public class MainActivity extends AppCompatActivity
         final Fragment fragment;
         if (getSupportFragmentManager().getBackStackEntryCount()>0){
         }
-
-
 //        if(getSupportFragmentManager().getBackStackEntryCount()>1)
 //        {
 //            getSupportFragmentManager().popBackStackImmediate();
@@ -330,8 +479,6 @@ public class MainActivity extends AppCompatActivity
         }*/
         checknetwork();
     }
-
-
 
     public void checknetwork() {
         if (!Utility.isNetworkConnected(MainActivity.this)) {

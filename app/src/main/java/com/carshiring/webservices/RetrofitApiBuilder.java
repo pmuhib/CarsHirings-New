@@ -18,7 +18,7 @@ public class RetrofitApiBuilder {
     public final static String CarHires_BASE_URL = "http://webdevelopmentreviews.net/carhires/webservice/";
     public final static String CarGates_BASE_URL = "https://carsgates.com/";
     private final static String CarGates_BASE_WEBSERVICE_URL = CarGates_BASE_URL  + "webservices/";
-    public final static String IMG_BASE_URL = CarHires_BASE_URL+ "upload/";
+    public final static String IMG_BASE_URL ="http://webdevelopmentreviews.net/carhires/upload/";
 
     public static RetroFitApis getCargHiresapis()
     {

@@ -132,7 +132,7 @@
                 style="@style/simpleRectangle"
                 android:layout_marginTop="2dp"
                 android:paddingBottom="5dp"
-                android:maxLength="2"
+                android:maxLength="6"
                 android:inputType="number"
                 android:imeOptions="actionDone"
                 android:maxLines="1"
@@ -151,7 +151,6 @@
                 style="@style/simpleRectangle"
                 android:layout_marginTop="2dp"
                 android:paddingBottom="5dp"
-                android:maxLength="2"
                 android:inputType="number"
                 android:imeOptions="actionDone"
                 android:maxLines="1"
@@ -170,7 +169,6 @@
                 style="@style/simpleRectangle"
                 android:layout_marginTop="2dp"
                 android:paddingBottom="5dp"
-                android:maxLength="2"
                 android:inputType="number"
                 android:imeOptions="actionDone"
                 android:maxLines="1"
@@ -189,8 +187,6 @@
                 style="@style/simpleRectangle"
                 android:layout_marginTop="2dp"
                 android:paddingBottom="5dp"
-                android:maxLength="2"
-                android:inputType="number"
                 android:imeOptions="actionDone"
                 android:maxLines="1"
                 >
@@ -208,8 +204,6 @@
                 style="@style/simpleRectangle"
                 android:layout_marginTop="2dp"
                 android:paddingBottom="5dp"
-                android:maxLength="2"
-                android:inputType="number"
                 android:imeOptions="actionDone"
                 android:maxLines="1"
                 >
@@ -232,6 +226,17 @@
                     android:id="@+id/bt_update"
                     android:layout_marginRight="3dp"
                     />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    style="@style/GreenButtonTheme"
+                    android:id="@+id/bt_cancel"
+                    android:layout_marginRight="3dp"
+                    />
+
 
             </LinearLayout>
         </LinearLayout>

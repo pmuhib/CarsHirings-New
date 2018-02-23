@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.carshiring.R;
 import com.carshiring.adapters.MyExListAdapter;
+import com.carshiring.utilities.Utility;
+import com.mukesh.tinydb.TinyDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +36,8 @@ public class ExcessProtectionActivity extends AppCompatActivity implements View.
     Toolbar toolbar;
     Button bt_standPro,bt_fullPro;
     String FromQuotes="";
+    TinyDB tinyDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,7 @@ public class ExcessProtectionActivity extends AppCompatActivity implements View.
         toolbar=  findViewById(R.id.bottomToolBar);
         toolbartext= toolbar.findViewById(R.id.txt_bot);
         toolbartext.setText("Add Full Protection");
-
+        tinyDB = new TinyDB(getApplicationContext());
         layoutbuttons= (LinearLayout) findViewById(R.id.ll_buttons);
         bt_standPro= (Button)findViewById(R.id.bt_standardPro);
         bt_fullPro=(Button) findViewById(R.id.bt_fullpro);
@@ -50,6 +54,15 @@ public class ExcessProtectionActivity extends AppCompatActivity implements View.
         txt_fullprotection.setText("Full Protection Only "+fullprotectioncurrency+" "+fullprotectionammount +" For Day");
         bt_fullPro.setOnClickListener(this);
         bt_standPro.setOnClickListener(this);
+
+        toolbartext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tinyDB.putString("full_prot",fullprotectioncurrency+" "+fullprotectionammount);
+                finish();
+                Utility.message(getApplication(), "Full protection added");
+            }
+        });
 
         Intent it=getIntent();
         if(it!=null)
