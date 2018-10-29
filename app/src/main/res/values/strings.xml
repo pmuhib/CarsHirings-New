@@ -136,7 +136,7 @@
     <string name="switchRetrunSameLoc">Return to same location</string>
     <string name="txtDate">Date</string>
     <string name="txtTime">Time</string>
-    <string name="txtDriveAge">Driver&#39;s Age</string>
+    <string name="txtDriveAge">Driver;s Age</string>
     <string name="switchDriverAgebw">Driver Aged between 25 - 70?</string>
     <string name="switchSearchMap">Search By map</string>
     <string name="edtDriverAge">Enter driver age</string>
